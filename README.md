@@ -1,7 +1,7 @@
 Godot Rust Tools 
 ================
 
-Godot Rust Tools, or "Rust Tools" for short, is a simple and lightweight addon for [Godot](https://godotengine.org/) 4 to help during development of Godot games that use Rust extensions through GDExtension:
+Godot Rust Tools, or "Rust Tools" for short, is a simple and lightweight plugin for [Godot](https://godotengine.org/) 4 to help during development of Godot games that use Rust extensions through GDExtension:
 
 - Automatic `cargo build` when you run the project.
 - A "Build" button in the toolbar to invoke `cargo build` manually.
@@ -14,7 +14,7 @@ Godot Rust Tools, or "Rust Tools" for short, is a simple and lightweight addon f
 Installation
 ------------
 
-Download this addon's project files from GitHub. Copy the `addons/rust_tools` folder to the `addons` folder in your own Godot project, creating it if necessary. Files outside `addons/rust_tools` are not needed to use the addon.
+Download this plugin's project files from GitHub. Copy the `addons/rust_tools` folder to the `addons` folder in your own Godot project, creating it if necessary. Files outside `addons/rust_tools` are not needed to use the plugin.
 
 Building Rust code
 ------------------

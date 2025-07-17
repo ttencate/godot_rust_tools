@@ -57,7 +57,7 @@ func _button_pressed() -> void:
 ## Invokes `cargo build`. Returns `true` if successful.
 func run() -> bool:
 	var project_root := DirAccess.open("res://")
-	var cargo_dirs := []
+	var cargo_dirs: Array[String] = []
 	for dir in project_root.get_directories():
 		if FileAccess.file_exists("res://" + dir + "/Cargo.toml"):
 			cargo_dirs.append(dir)
@@ -141,7 +141,7 @@ func _color_codes_to_bbcode(input: String) -> String:
 						5:
 							if i + 2 >= len(params):
 								break
-							var n = params[i + 2]
+							var n := params[i + 2]
 							output += "[color=#%s]" % [_color256(n).to_html(false)]
 							close_tags.push_back("[/color]")
 							i += 2

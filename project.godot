@@ -13,3 +13,17 @@ config_version=5
 config/name="Godot Rust Tools"
 config/description="This is the Godot project containing the Godot Rust Tools plugin. This project is only needed for development of the plugin itself. To use the plugin for your own project, you only need the contents of the addons/rust_tools folder."
 config/features=PackedStringArray("4.5")
+
+[debug]
+
+gdscript/warnings/exclude_addons=false
+gdscript/warnings/unassigned_variable=2
+gdscript/warnings/unassigned_variable_op_assign=2
+gdscript/warnings/standalone_expression=2
+gdscript/warnings/standalone_ternary=2
+gdscript/warnings/incompatible_ternary=2
+gdscript/warnings/untyped_declaration=2
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot-plugin-refresher/plugin.cfg", "res://addons/rust_tools/plugin.cfg")
