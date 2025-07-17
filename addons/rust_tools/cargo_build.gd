@@ -62,9 +62,19 @@ func run() -> bool:
 		# This is just a warning; technically no build was requested, so it succeeded.
 		return true
 	
+	var cargo_executable := RustToolsSettings.get_cargo_executable()
+	if cargo_executable.contains('/') or cargo_executable.contains('\\'):
+		if not FileAccess.file_exists(cargo_executable):
+			push_error(
+				"The configured cargo executable '%s' does not exist. Go to Editor > Editor Settings... > Rust Tools and set Cargo Executable to the absolute path to the cargo binary on your system." %
+				[cargo_executable])
+			return false
+	
 	for cargo_package_dir in cargo_package_dirs:
 		if not FileAccess.file_exists(cargo_package_dir + "/Cargo.toml"):
-			push_error("The configured cargo package directory '%s' does not contain a Cargo.toml file." % [cargo_package_dir])
+			push_error(
+				"The configured cargo package directory '%s' does not contain a Cargo.toml file." %
+				[cargo_package_dir])
 			return false
 		
 		var output := []
@@ -93,7 +103,10 @@ func run() -> bool:
 				if "'" in cargo_package_dir:
 					push_error("Cargo project path must not contain single quotes")
 					return false
-				var shell_command := "cd '%s' && cargo build --color=always" % [cargo_package_dir]
+				var shell_command := (
+					"cd '%s' && %s build --color=always" %
+					[cargo_package_dir, cargo_executable]
+				)
 				exit_code = OS.execute(
 					"/bin/sh", ["-c", shell_command], output, true, true)
 		
