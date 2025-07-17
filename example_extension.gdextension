@@ -1,0 +1,14 @@
+[configuration]
+entry_symbol = "gdext_rust_init"
+compatibility_minimum = 4.1
+reloadable = true
+
+[libraries]
+linux.debug.x86_64 =     "res://example_extension/target/debug/libexample_extension.so"
+linux.release.x86_64 =   "res://example_extension/target/release/libexample_extension.so"
+windows.debug.x86_64 =   "res://example_extension/target/debug/example_extension.dll"
+windows.release.x86_64 = "res://example_extension/target/release/example_extension.dll"
+macos.debug =            "res://example_extension/target/debug/libexample_extension.dylib"
+macos.release =          "res://example_extension/target/release/libexample_extension.dylib"
+macos.debug.arm64 =      "res://example_extension/target/debug/libexample_extension.dylib"
+macos.release.arm64 =    "res://example_extension/target/release/libexample_extension.dylib"
