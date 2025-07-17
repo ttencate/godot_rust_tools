@@ -27,3 +27,8 @@ gdscript/warnings/untyped_declaration=2
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot-plugin-refresher/plugin.cfg", "res://addons/rust_tools/plugin.cfg")
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
