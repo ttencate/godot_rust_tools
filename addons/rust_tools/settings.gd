@@ -5,13 +5,14 @@ extends Node
 const _CARGO_EXECUTABLE := "rust_tools/cargo_executable"
 
 # Project settings
-const _CARGO_PACKAGE_DIRECTORIES := "rust_tools/cargo_package_directory"
+const _CARGO_PACKAGE_DIRECTORIES := "rust_tools/cargo_package_directories"
 
 ## Registers all project and editor settings.
 static func register() -> void:
 	var editor_settings := EditorInterface.get_editor_settings()
 	if not editor_settings.has_setting(_CARGO_EXECUTABLE):
 		editor_settings.set_setting(_CARGO_EXECUTABLE, "cargo")
+	editor_settings.set_initial_value(_CARGO_EXECUTABLE, "cargo", false)
 	editor_settings.add_property_info({
 		"name": _CARGO_EXECUTABLE,
 		"type": TYPE_STRING,
@@ -20,6 +21,7 @@ static func register() -> void:
 	
 	if not ProjectSettings.has_setting(_CARGO_PACKAGE_DIRECTORIES):
 		ProjectSettings.set_setting(_CARGO_PACKAGE_DIRECTORIES, PackedStringArray())
+	ProjectSettings.set_initial_value(_CARGO_PACKAGE_DIRECTORIES, PackedStringArray())
 	# Unfortunately, there doesn't seem to be a way to add documentation to the property's tooltip.
 	ProjectSettings.add_property_info({
 		"name": _CARGO_PACKAGE_DIRECTORIES,
@@ -28,6 +30,7 @@ static func register() -> void:
 		# project. And we do not use PROPERTY_HINT_GLOBAL_DIR either, because it fills out an
 		# absolute path whereas we want a relative path.
 	})
+	ProjectSettings.set_as_basic(_CARGO_PACKAGE_DIRECTORIES, true)
 
 ## Returns the command to invoke cargo with. If it's on the PATH, this will just be "cargo",
 ## but it can also be an absolute path.
