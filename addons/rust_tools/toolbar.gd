@@ -17,7 +17,7 @@ func _clean_button_pressed() -> void:
 	RustToolsCargo.clean_async()
 
 func _build_button_pressed() -> void:
-	RustToolsCargo.build_async()
+	RustToolsCargo.build_async("dev")
 
 func _rust_backtrace_check_box_toggled(on: bool) -> void:
 	RustToolsEnvironment.set_rust_backtrace(on)

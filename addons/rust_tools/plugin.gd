@@ -2,9 +2,13 @@
 extends EditorPlugin
 
 var _toolbar: RustToolsToolbar
+var _export_plugin: RustToolsExportPlugin
 
 func _enter_tree() -> void:
 	RustToolsSettings.register()
+	
+	_export_plugin = RustToolsExportPlugin.new()
+	add_export_plugin(_export_plugin)
 	
 	_toolbar = preload("res://addons/rust_tools/toolbar.tscn").instantiate() as RustToolsToolbar
 	add_control_to_container(EditorPlugin.CONTAINER_TOOLBAR, _toolbar)
@@ -20,6 +24,9 @@ func _exit_tree() -> void:
 	remove_control_from_container(EditorPlugin.CONTAINER_TOOLBAR, _toolbar)
 	_toolbar.queue_free()
 	_toolbar = null
+	
+	remove_export_plugin(_export_plugin)
+	_export_plugin = null
 
 func _build() -> bool:
-	return RustToolsCargo.build_sync()
+	return RustToolsCargo.build_sync("dev")

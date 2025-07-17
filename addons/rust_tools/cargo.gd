@@ -2,7 +2,7 @@
 class_name RustToolsCargo
 
 ## Invokes [code]cargo build[/code]. Returns [code]true[/true] if successful.
-static func build_sync() -> bool:
+static func build_sync(profile: String) -> bool:
 	var cargo_package_dirs := RustToolsSettings.get_cargo_package_directories()
 	if not _check_cargo_package_dirs(cargo_package_dirs):
 		# Nothing to build; this is considered a success.
@@ -13,13 +13,13 @@ static func build_sync() -> bool:
 		return false
 	
 	for cargo_package_dir in cargo_package_dirs:
-		if not _cargo_subprocess(cargo_package_dir, cargo_executable, ['build']).run_sync():
+		if not _cargo_subprocess(cargo_package_dir, cargo_executable, ['build', '--profile=%s' % profile]).run_sync():
 			return false
 	
 	return true
 
 ## Invokes [code]cargo build[/code] asynchronously.
-static func build_async() -> void:
+static func build_async(profile: String) -> void:
 	var cargo_package_dirs := RustToolsSettings.get_cargo_package_directories()
 	if not _check_cargo_package_dirs(cargo_package_dirs):
 		return
@@ -29,7 +29,7 @@ static func build_async() -> void:
 		return
 	
 	for cargo_package_dir in cargo_package_dirs:
-		var subprocess := _cargo_subprocess(cargo_package_dir, cargo_executable, ['build'])
+		var subprocess := _cargo_subprocess(cargo_package_dir, cargo_executable, ['build', '--profile=%s' % profile])
 		if not subprocess.run_async():
 			return
 		var success: bool = await subprocess.finished
