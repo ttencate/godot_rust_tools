@@ -5,6 +5,8 @@ var _cargo_build: RustToolsCargoBuild
 var _rust_backtrace: RustToolsRustBacktrace
 
 func _enter_tree() -> void:
+	RustToolsSettings.register()
+	
 	_cargo_build = RustToolsCargoBuild.new(self)
 	_cargo_build.add_button()
 	

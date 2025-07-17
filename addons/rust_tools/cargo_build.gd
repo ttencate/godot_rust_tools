@@ -56,16 +56,17 @@ func _button_pressed() -> void:
 
 ## Invokes `cargo build`. Returns `true` if successful.
 func run() -> bool:
-	var project_root := DirAccess.open("res://")
-	var cargo_dirs: Array[String] = []
-	for dir in project_root.get_directories():
-		if FileAccess.file_exists("res://" + dir + "/Cargo.toml"):
-			cargo_dirs.append(dir)
+	var cargo_package_dirs := RustToolsSettings.get_cargo_package_directories()
+	if cargo_package_dirs.is_empty():
+		push_warning("No cargo package directories are configured, so no Rust code will be built. Go to Project > Project Settings... > Rust Tools and set Cargo Package Directories to a directory containing Cargo.toml, relative to the root of the Godot project.")
+		# This is just a warning; technically no build was requested, so it succeeded.
+		return true
 	
-	if cargo_dirs.size() == 0:
-		push_warning("No cargo project found in child directories of the project root")
-	
-	for cargo_dir in cargo_dirs:
+	for cargo_package_dir in cargo_package_dirs:
+		if not FileAccess.file_exists(cargo_package_dir + "/Cargo.toml"):
+			push_error("The configured cargo package directory '%s' does not contain a Cargo.toml file." % [cargo_package_dir])
+			return false
+		
 		var output := []
 		var exit_code: int
 		# Spawn a shell to change directory first, because Godot's process API
@@ -85,20 +86,20 @@ func run() -> bool:
 				return false
 			_:
 				# All other platforms are Unix-like enough to have an sh-compatible shell.
-				# From the manual: "Enclosing  characters  in single quotes preserves the literal
+				# From the manual: "Enclosing characters in single quotes preserves the literal
 				# value of each character within the quotes. A single quote may not occur between
 				# single quotes, even when preceded by a backslash."
 				# This case is rare enough that we don't need to support it, but we can detect it.
-				if "'" in cargo_dir:
+				if "'" in cargo_package_dir:
 					push_error("Cargo project path must not contain single quotes")
 					return false
-				var shell_command := "cd '%s' && cargo build --color=always" % [cargo_dir]
+				var shell_command := "cd '%s' && cargo build --color=always" % [cargo_package_dir]
 				exit_code = OS.execute(
 					"/bin/sh", ["-c", shell_command], output, true, true)
 		
 		var color_output := _url_codes_to_bbcode(_color_codes_to_bbcode(output[0]))
 		print_rich(color_output)
-	
+
 		if exit_code != 0:
 			return false
 	

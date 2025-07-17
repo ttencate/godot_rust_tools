@@ -32,3 +32,7 @@ enabled=PackedStringArray("res://addons/godot-plugin-refresher/plugin.cfg", "res
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+
+[rust_tools]
+
+cargo_package_directory=PackedStringArray("example_extension")
