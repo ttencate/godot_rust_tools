@@ -14,10 +14,10 @@ func _ready() -> void:
 	%BuildButton.pressed.connect(_build_button_pressed)
 
 func _clean_button_pressed() -> void:
-	RustToolsCargo.clean()
+	RustToolsCargo.clean_async()
 
 func _build_button_pressed() -> void:
-	RustToolsCargo.build()
+	RustToolsCargo.build_async()
 
 func _rust_backtrace_check_box_toggled(on: bool) -> void:
 	RustToolsEnvironment.set_rust_backtrace(on)

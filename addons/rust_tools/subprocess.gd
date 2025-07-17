@@ -3,52 +3,133 @@
 class_name RustToolsSubprocess
 extends RefCounted
 
+## Emitted when a subprocess started with [code]run_async[/code] has completed.
+signal finished(success: bool)
+
 var _command: String
 var _args := PackedStringArray()
 var _working_dir := "."
 
-const ESC := "\u001B"
+# Attributes of running process.
+var _pid := -1
+var _poll_thread: Thread
+var _stdout_thread: Thread
+var _stderr_thread: Thread
 
-static var _foreground_colors := {
-	30: "black",
-	31: "red",
-	32: "green",
-	33: "yellow",
-	34: "blue",
-	35: "magenta",
-	36: "cyan",
-	37: "white",
-}
-
+## Creates a new subprocess to run the given command (executable).
 func _init(command: String) -> void:
 	_command = command
 
+## Sets command line arguments to follow after the command itself.
+##
+## Important: the given args must currently not contain spaces or other characters that are special
+## to any shell! If we need that in the future, we'll need to add shell-specific escaping code.
 func set_args(args: PackedStringArray) -> void:
 	_args = args
 
+## Sets the working directory in which to execute the command. Defaults to the current directory.
 func set_working_dir(working_dir: String) -> void:
 	_working_dir = working_dir
 
 ## Runs the command synchronously, blocking until completed.
 ## Returns [code]true[/code] if successful.
 func run_sync() -> bool:
+	var command_line := _shell_command_with_chdir()
 	var output := []
-	var exit_code: int
-	# Spawn a shell to change directory first, because Godot's process API
-	# does not support that.
-	# Using cargo's `--manifest-path` makes it ignore `.cargo/config.toml`,
-	# so that's not an option.
-	# There is `cargo -C DIR build` but it's nightly only (as of 1.87.0),
-	# so that's not an option either.
+	var read_stderr := true
+	var open_console := false
+	var exit_code := OS.execute(command_line.path, command_line.arguments, output, read_stderr, open_console)
+	
+	var color_output := RustToolsAnsiEscapeCodes.to_bbcode(output[0])
+	print_rich(color_output)
+
+	return exit_code == 0
+
+## Starts the process to run in the background.
+## Returns [code]true[/code] if started successfully.
+func run_async() -> bool:
+	var command_line := _shell_command_with_chdir()
+	var blocking := true
+	var dict := OS.execute_with_pipe(command_line.path, command_line.arguments, blocking)
+	if dict.is_empty():
+		return false
+	
+	var pid: int= dict.pid
+	_pid = pid
+	
+	var stdio: FileAccess = dict.stdio
+	var stderr: FileAccess = dict.stderr
+	_poll_thread = Thread.new()
+	_stdout_thread = Thread.new()
+	_stderr_thread = Thread.new()
+	_poll_thread.start(func() -> void: _poll_process(pid))
+	_stdout_thread.start(func() -> void: _read_process_output(stdio))
+	_stderr_thread.start(func() -> void: _read_process_output(stderr))
+	
+	return true
+
+## Kills the running process.
+func kill() -> void:
+	if _pid != -1:
+		OS.kill(_pid)
+		_pid = -1
+
+## Main loop for a thread that regularly polls the subprocess to see if it's finished.
+# Takes pid by argument (rather than using self._pid) to avoid data races and locking.
+func _poll_process(pid: int) -> void:
+	while OS.is_process_running(pid):
+		OS.delay_msec(100)
+	var exit_code := OS.get_process_exit_code(pid)
+	var success := exit_code == 0
+	# Use call_deferred to make sure that signal handlers run on the main thread.
+	call_deferred("_process_finished", success)
+
+## Called on the main thread once the process is finished.
+func _process_finished(success: bool) -> void:
+	if _stdout_thread:
+		_stdout_thread.wait_to_finish()
+		_stdout_thread = null
+	
+	if _stderr_thread:
+		_stderr_thread.wait_to_finish()
+		_stderr_thread = null
+	
+	if _poll_thread:
+		_poll_thread.wait_to_finish()
+		_poll_thread = null
+	
+	finished.emit(success)
+
+## Main loop for output-reading threads.
+func _read_process_output(stream: FileAccess) -> void:
+	while true:
+		var line := stream.get_line()
+		if stream.get_error() != OK:
+			break
+		print_rich(RustToolsAnsiEscapeCodes.to_bbcode(line))
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		# Note that this object will never be deleted while the process is still running,
+		# because the threads reading stdout and stderr hold a reference to it.
+		# Probably the pending _process_finished call also keeps the object alive, and that is the
+		# one that'll clean up (wait on) the helper threads.
+		pass
+
+func _shell_command_with_chdir() -> Dictionary:
+	# Spawn a shell to change directory first, because Godot's process API does not support that.
+	# Using cargo's `--manifest-path` makes it ignore `.cargo/config.toml`, so that's not an option.
+	# There is `cargo -C DIR build` but it's nightly only (as of 1.87.0), so that's not an option
+	# either.
 	match OS.get_name():
 		"Web":
 			# No process spawning, no Rust toolchain. Can't be done.
 			push_error("Rust Tools is not supported on the web")
-			return false
+			return {}
 		"Windows":
 			# I'm not sure about the cmd.exe incantation. It's probably similar. PRs welcome.
 			push_error("Rust Tools is not supported on Windows yet")
-			return false
+			return {}
 		_:
 			# All other platforms are Unix-like enough to have an sh-compatible shell.
 			# From the manual: "Enclosing characters in single quotes preserves the literal
@@ -57,131 +138,12 @@ func run_sync() -> bool:
 			# This case is rare enough that we don't need to support it, but we can detect it.
 			if "'" in _working_dir:
 				push_error("Path %s contains a single quote, which is not supported" % [_working_dir])
-				return false
+				return {}
 			var shell_command := (
-				"cd '%s' && %s %s --color=always" %
+				"cd '%s' && %s %s" %
 				[_working_dir, _command, ' '.join(_args)]
 			)
-			exit_code = OS.execute(
-				"/bin/sh", ["-c", shell_command], output, true, true)
-	
-	var color_output := _url_codes_to_bbcode(_color_codes_to_bbcode(output[0]))
-	print_rich(color_output)
-
-	return exit_code == 0
-
-## Converts terminal escape sequences to bbcode for display in Godot's console.
-##
-## [url]https://en.wikipedia.org/wiki/ANSI_escape_code#Colors[/url]
-static func _color_codes_to_bbcode(input: String) -> String:
-	var regex := RegEx.create_from_string(ESC + r"\[([\d;]*)m")
-	
-	var output := ""
-	var start := 0
-	var re_match := regex.search(input, start)
-	var close_tags := []
-	while re_match:
-		output += input.substr(start, re_match.get_start() - start)
-		var parts := re_match.get_string(1).split(";")
-		var params: Array[int] = []
-		for i in len(parts):
-			params.append(int(parts[i]))
-		if len(params) == 0:
-			params = [0]
-		var i := 0
-		while i < len(params):
-			match params[i]:
-				0:
-					while not close_tags.is_empty():
-						output += close_tags.pop_back()
-				1:
-					output += "[b]"
-					close_tags.push_back("[/b]")
-				var fg when fg in _foreground_colors:
-					output += "[color=%s]" % [_foreground_colors[fg]]
-					close_tags.push_back("[/color]")
-				38:
-					if i + 1 >= len(params):
-						break
-					match params[i + 1]:
-						5:
-							if i + 2 >= len(params):
-								break
-							var n := params[i + 2]
-							output += "[color=#%s]" % [_color256(n).to_html(false)]
-							close_tags.push_back("[/color]")
-							i += 2
-						2:
-							if i + 4 >= len(params):
-								break
-							var r := params[i + 2]
-							var g := params[i + 3]
-							var b := params[i + 4]
-							output += "[color=#%s]" % [Color.from_rgba8(r, g, b, 255).to_html(false)]
-							close_tags.push_back("[/color]")
-							i += 4
-			i += 1
-		
-		start = re_match.get_end()
-		re_match = regex.search(input, start)
-	
-	output += input.substr(start)
-	while not close_tags.is_empty():
-		output += close_tags.pop_back()
-	
-	return output
-
-## Parses a 256-color escape sequence into a Godot [code]Color[/code].
-##
-## [url]https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit[/url]
-static func _color256(code: int) -> Color:
-	var r: int
-	var g: int
-	var b: int
-	if code < 16:
-		var level: int
-		if code > 8:
-			level = 255
-		elif code == 7:
-			level = 229
-		else:
-			level = 205
-		r = 127 if code == 8 else level if (code & 1) != 0 else 92 if code == 12 else 0
-		g = 127 if code == 8 else level if (code & 2) != 0 else 92 if code == 12 else 0
-		b = 127 if code == 8 else 238 if code == 4 else level if (code & 4) != 0 else 0
-	elif code < 232:
-		code -= 16
-		var blue := code % 6
-		code /= 6
-		var green := code % 6
-		code /= 6
-		var red := code
-		r = red   * 40 + 55 if red   != 0 else 0
-		g = green * 40 + 55 if green != 0 else 0
-		b = blue  * 40 + 55 if blue  != 0 else 0
-	else:
-		var gray := code - 232
-		var level := gray * 10 + 8
-		r = level
-		g = level
-		b = level
-	return Color.from_rgba8(r, g, b)
-
-## Converts ANSI terminal escape sequences for hyperlinks into bbcode [code][url][/code] tags.
-static func _url_codes_to_bbcode(input: String) -> String:
-	var regex := RegEx.create_from_string(ESC + r"\]8;;(.*?)" + ESC + r"\\(.*?)" + ESC + r"]8;;" + ESC + r"\\")
-	
-	var output := ""
-	var start := 0
-	var re_match := regex.search(input, start)
-	while re_match:
-		output += input.substr(start, re_match.get_start() - start)
-		
-		output += "[url=%s]%s[/url]" % [re_match.get_string(1), re_match.get_string(2)]
-		
-		start = re_match.get_end()
-		re_match = regex.search(input, start)
-	
-	output += input.substr(start)
-	
-	return output
+			return {
+				"path": "/bin/sh",
+				"arguments": ["-c", shell_command],
+			}
