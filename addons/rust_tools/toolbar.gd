@@ -9,11 +9,15 @@ func _ready() -> void:
 	
 	%RustBacktraceButton.button_pressed = RustToolsEnvironment.get_rust_backtrace()
 	
-	%BuildButton.pressed.connect(_build_button_pressed)
 	%RustBacktraceButton.toggled.connect(_rust_backtrace_check_box_toggled)
+	%CleanButton.pressed.connect(_clean_button_pressed)
+	%BuildButton.pressed.connect(_build_button_pressed)
+
+func _clean_button_pressed() -> void:
+	RustToolsCargo.clean()
 
 func _build_button_pressed() -> void:
-	RustToolsCargoBuild.run()
+	RustToolsCargo.build()
 
 func _rust_backtrace_check_box_toggled(on: bool) -> void:
 	RustToolsEnvironment.set_rust_backtrace(on)

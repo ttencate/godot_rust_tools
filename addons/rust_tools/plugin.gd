@@ -22,4 +22,4 @@ func _exit_tree() -> void:
 	_toolbar = null
 
 func _build() -> bool:
-	return RustToolsCargoBuild.run()
+	return RustToolsCargo.build()

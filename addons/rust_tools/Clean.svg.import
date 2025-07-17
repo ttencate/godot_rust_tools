@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqerla443lnw1"
-path="res://.godot/imported/BuildRust.svg-fad850b4cc9063ca9b806fbebecdcac7.ctex"
+uid="uid://docpojsj1edqo"
+path="res://.godot/imported/Clean.svg-b6689c53194cb9883a53bf774d05ba3e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/rust_tools/BuildRust.svg"
-dest_files=["res://.godot/imported/BuildRust.svg-fad850b4cc9063ca9b806fbebecdcac7.ctex"]
+source_file="res://addons/rust_tools/Clean.svg"
+dest_files=["res://.godot/imported/Clean.svg-b6689c53194cb9883a53bf774d05ba3e.ctex"]
 
 [params]
 

@@ -1,6 +1,5 @@
 @tool
-class_name RustToolsCargoBuild
-extends RefCounted
+class_name RustToolsCargo
 
 const ESC := "\u001B"
 
@@ -15,8 +14,21 @@ static var _foreground_colors := {
 	37: "white",
 }
 
+## Invokes `cargo clean`. Returns `true` if successful.
+static func clean() -> bool:
+	var cargo_executable := RustToolsSettings.get_cargo_executable()
+	if not _check_cargo_executable(cargo_executable):
+		return false
+	
+	var cargo_package_dirs := RustToolsSettings.get_cargo_package_directories()
+	for cargo_package_dir in cargo_package_dirs:
+		if not _run_cargo(cargo_package_dir, cargo_executable, ['clean']):
+			return false
+	
+	return true
+
 ## Invokes `cargo build`. Returns `true` if successful.
-static func run() -> bool:
+static func build() -> bool:
 	var cargo_package_dirs := RustToolsSettings.get_cargo_package_directories()
 	if cargo_package_dirs.is_empty():
 		push_warning("No cargo package directories are configured, so no Rust code will be built. Go to Project > Project Settings... > Rust Tools and set Cargo Package Directories to a directory containing Cargo.toml, relative to the root of the Godot project.")
@@ -24,60 +36,78 @@ static func run() -> bool:
 		return true
 	
 	var cargo_executable := RustToolsSettings.get_cargo_executable()
+	if not _check_cargo_executable(cargo_executable):
+		return false
+	
+	for cargo_package_dir in cargo_package_dirs:
+		if not _run_cargo(cargo_package_dir, cargo_executable, ['build']):
+			return false
+	
+	return true
+
+static func _check_cargo_executable(cargo_executable: String) -> bool:
 	if cargo_executable.contains('/') or cargo_executable.contains('\\'):
-		if not FileAccess.file_exists(cargo_executable):
+		if FileAccess.file_exists(cargo_executable):
+			return true
+		else:
 			push_error(
 				"The configured cargo executable '%s' does not exist. Go to Editor > Editor Settings... > Rust Tools and set Cargo Executable to the absolute path to the cargo binary on your system." %
 				[cargo_executable])
 			return false
-	
-	for cargo_package_dir in cargo_package_dirs:
-		if not FileAccess.file_exists(cargo_package_dir + "/Cargo.toml"):
-			push_error(
-				"The configured cargo package directory '%s' does not contain a Cargo.toml file." %
-				[cargo_package_dir])
-			return false
-		
-		var output := []
-		var exit_code: int
-		# Spawn a shell to change directory first, because Godot's process API
-		# does not support that.
-		# Using cargo's `--manifest-path` makes it ignore `.cargo/config.toml`,
-		# so that's not an option.
-		# There is `cargo -C DIR build` but it's nightly only (as of 1.87.0),
-		# so that's not an option either.
-		match OS.get_name():
-			"Web":
-				# No process spawning, no Rust toolchain. Can't be done.
-				push_error("Rust Tools is not supported on the web")
-				return false
-			"Windows":
-				# I'm not sure about the cmd.exe incantation. It's probably similar. PRs welcome.
-				push_error("Rust Tools is not supported on Windows yet")
-				return false
-			_:
-				# All other platforms are Unix-like enough to have an sh-compatible shell.
-				# From the manual: "Enclosing characters in single quotes preserves the literal
-				# value of each character within the quotes. A single quote may not occur between
-				# single quotes, even when preceded by a backslash."
-				# This case is rare enough that we don't need to support it, but we can detect it.
-				if "'" in cargo_package_dir:
-					push_error("Cargo project path must not contain single quotes")
-					return false
-				var shell_command := (
-					"cd '%s' && %s build --color=always" %
-					[cargo_package_dir, cargo_executable]
-				)
-				exit_code = OS.execute(
-					"/bin/sh", ["-c", shell_command], output, true, true)
-		
-		var color_output := _url_codes_to_bbcode(_color_codes_to_bbcode(output[0]))
-		print_rich(color_output)
+	else:
+		# We are depending on cargo being in the PATH, but have no easy way to check for it.
+		return true
 
-		if exit_code != 0:
-			return false
+## Runs the given cargo executable in the given working directory, passing the given arguments.
+## The output is printed to the editor's Output pane.
+## Returns true if successful.
+##
+## Important: the given args must currently not contain spaces or other characters that are special
+## to any shell! If we need that in the future, we'll need to add shell-specific escaping code.
+static func _run_cargo(cargo_package_dir: String, cargo_executable: String, args: PackedStringArray) -> bool:
+	if not FileAccess.file_exists(cargo_package_dir + "/Cargo.toml"):
+		push_error(
+			"The configured cargo package directory '%s' does not contain a Cargo.toml file." %
+			[cargo_package_dir])
+		return false
 	
-	return true
+	var output := []
+	var exit_code: int
+	# Spawn a shell to change directory first, because Godot's process API
+	# does not support that.
+	# Using cargo's `--manifest-path` makes it ignore `.cargo/config.toml`,
+	# so that's not an option.
+	# There is `cargo -C DIR build` but it's nightly only (as of 1.87.0),
+	# so that's not an option either.
+	match OS.get_name():
+		"Web":
+			# No process spawning, no Rust toolchain. Can't be done.
+			push_error("Rust Tools is not supported on the web")
+			return false
+		"Windows":
+			# I'm not sure about the cmd.exe incantation. It's probably similar. PRs welcome.
+			push_error("Rust Tools is not supported on Windows yet")
+			return false
+		_:
+			# All other platforms are Unix-like enough to have an sh-compatible shell.
+			# From the manual: "Enclosing characters in single quotes preserves the literal
+			# value of each character within the quotes. A single quote may not occur between
+			# single quotes, even when preceded by a backslash."
+			# This case is rare enough that we don't need to support it, but we can detect it.
+			if "'" in cargo_package_dir:
+				push_error("Cargo project path must not contain single quotes")
+				return false
+			var shell_command := (
+				"cd '%s' && %s %s --color=always" %
+				[cargo_package_dir, cargo_executable, ' '.join(args)]
+			)
+			exit_code = OS.execute(
+				"/bin/sh", ["-c", shell_command], output, true, true)
+	
+	var color_output := _url_codes_to_bbcode(_color_codes_to_bbcode(output[0]))
+	print_rich(color_output)
+
+	return exit_code == 0
 
 ## Converts terminal escape sequences to bbcode for display in Godot's console.
 ##
