@@ -12,6 +12,7 @@ config_version=5
 
 config/name="Godot Rust Tools"
 config/description="This is the Godot project containing the Godot Rust Tools plugin. This project is only needed for development of the plugin itself. To use the plugin for your own project, you only need the contents of the addons/rust_tools folder."
+run/main_scene="uid://bk7wo4wybejwf"
 config/features=PackedStringArray("4.5")
 
 [debug]
