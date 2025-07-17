@@ -46,6 +46,8 @@ You need to tell Rust Tools which cargo package(s) to build. You can do that und
 
 ![Screenshot of Project Settings, showing the above setting being set to example_extension](readme_images/project_settings.png)
 
+Note that this path is relative to the Godot project itself. If your Rust code is in a subdirectory, specify its name here. If it's in a sibling directory, use something like "../rust".
+
 License
 -------
 
