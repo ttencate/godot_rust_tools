@@ -1,13 +1,7 @@
 Godot Rust Tools 
 ================
 
-Godot Rust Tools, or "Rust Tools" for short, is a simple and lightweight plugin for [Godot](https://godotengine.org/) 4 to help during development of Godot games that use Rust extensions through GDExtension:
-
-- Automatic `cargo build` when you run the project.
-- A "Build" button in the toolbar to invoke `cargo build` manually.
-- A checkbox "Rust Backtrace" that sets `RUST_BACKTRACE=1` in the environment.
-
-![A screenshot of Godot's top left toolbar, with two additions: on the left, a checkbox labeled "Rust Backtrace", and next to it a button with a hammer icon](readme_images/build_and_backtrace.png)
+Godot Rust Tools, or "Rust Tools" for short, is a simple and lightweight plugin for [Godot](https://godotengine.org/) 4 to help during development of Godot games that use Rust extensions through GDExtension.
 
 [godot-rust](https://godot-rust.github.io/) is the canonical library for Rust bindings, but this plugin is not dependent on it and can work just as well with custom bindings.
 
@@ -16,21 +10,41 @@ Installation
 
 Download this plugin's project files from GitHub. Copy the `addons/rust_tools` folder to the `addons` folder in your own Godot project, creating it if necessary. Files outside `addons/rust_tools` are not needed to use the plugin.
 
-Building Rust code
-------------------
+Usage
+-----
 
-Cargo projects are detected automatically: Rust Tools scans the root directory of the project for any directories containing `Cargo.toml`.
+After enabling the plugin, you'll see some new toolbar buttons to the left of the usual ones, marked with a little `rs` icon:
 
-All output from the compiler is shown afterwards in the Output pane, properly colourized:
+![A screenshot of Godot's top left toolbar, with three additional buttons: one displaying a call stack, one a broom and one a hammer. All three have an overlay with the letters "rs".](readme_images/toolbar.png)
+
+From left to right:
+
+- Rust Backtrace: toggle `RUST_BACKTRACE=1` in the environment of the running project, for more detailed panic reporting. Note that this only takes effect on newly started projects, not on currently running ones.
+- Clean: runs `cargo clean`.
+- Build: runs `cargo build`.
+
+Build output goes to the Output pane at the bottom:
 
 ![A screenshot of Godot's Output pane, showing the output of a cargo build process](readme_images/build_output.png)
 
-Whenever you run the project or the current scene, `cargo build` is invoked automatically. Due to limitations of the Godot plugin API, the build is invoked on the main thread, and will freeze the UI until it's done.
+`cargo build` is also invoked automatically when you run or export your project, so you'll never get out-of-date code. However, due to limitations in the Godot API, these invocations must run synchronously, blocking the editor UI.
 
-Backtrace toggle
-----------------
+Configuration
+-------------
 
-Due to limitations in the Rust standard library, the "Rust Backtrace" checkbox only takes effect on newly started processes. You cannot use it to enable backtraces on a currently running game.
+### Path to `cargo` executable
+
+If you don't have `cargo` in your `PATH`, you need to tell the editor where to find it. Go to Editor > Editor Settings… > Rust Tools, and set `Cargo Executable` to the absolute path to the `cargo` or `cargo.exe` executable:
+
+![Screenshot of Editor Settings, showing the above setting being set to /usr/bin/cargo.](readme_images/editor_settings.png)
+
+The default, plain `cargo`, is fine if its containing directory is on your `PATH`.
+
+### Path to your Rust project(s)
+
+You need to tell Rust Tools which cargo package(s) to build. You can do that under Project > Project Settings… > Rust Tools by adding their path(s) to the `Cargo Package Directories` setting:
+
+![Screenshot of Project Settings, showing the above setting being set to example_extension](readme_images/project_settings.png)
 
 License
 -------
