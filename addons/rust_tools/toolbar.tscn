@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://cejtff5pk7ubn"]
+
+[ext_resource type="Script" uid="uid://l7jreseg8bg6" path="res://addons/rust_tools/toolbar.gd" id="1_31jsk"]
+[ext_resource type="Texture2D" uid="uid://bqerla443lnw1" path="res://addons/rust_tools/BuildRust.svg" id="1_v4wle"]
+[ext_resource type="Texture2D" uid="uid://6mljpf2q4uvm" path="res://addons/rust_tools/RustBacktrace.svg" id="2_ah6mh"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_31jsk"]
+shift_pressed = true
+ctrl_pressed = true
+key_label = 66
+
+[sub_resource type="Shortcut" id="Shortcut_ah6mh"]
+events = [SubResource("InputEventKey_31jsk")]
+
+[node name="RustToolsToolbar" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_31jsk")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="RustBacktraceButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Set RUST_BACKTRACE=1 in the running project's environment (takes effect after starting the project)"
+focus_mode = 0
+theme_type_variation = &"RunBarButton"
+toggle_mode = true
+icon = ExtResource("2_ah6mh")
+
+[node name="BuildButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Build Rust Project (cargo build)"
+focus_mode = 0
+theme_type_variation = &"RunBarButton"
+shortcut = SubResource("Shortcut_ah6mh")
+icon = ExtResource("1_v4wle")

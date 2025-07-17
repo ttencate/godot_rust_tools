@@ -1,24 +1,25 @@
 @tool
 extends EditorPlugin
 
-var _cargo_build: RustToolsCargoBuild
-var _rust_backtrace: RustToolsRustBacktrace
+var _toolbar: RustToolsToolbar
 
 func _enter_tree() -> void:
 	RustToolsSettings.register()
 	
-	_cargo_build = RustToolsCargoBuild.new(self)
-	_cargo_build.add_button()
-	
-	_rust_backtrace = RustToolsRustBacktrace.new(self)
-	_rust_backtrace.add_checkbox()
+	_toolbar = preload("res://addons/rust_tools/toolbar.tscn").instantiate() as RustToolsToolbar
+	add_control_to_container(EditorPlugin.CONTAINER_TOOLBAR, _toolbar)
+	# Move the toolbar to the left of the run bar (best-effort), because that's where the build
+	# button for C# is in the mono build as well.
+	var parent := _toolbar.get_parent()
+	for child in parent.get_children():
+		if child.name.contains("EditorRunBar"):
+			parent.move_child(_toolbar, child.get_index())
+			break
 
 func _exit_tree() -> void:
-	_rust_backtrace.remove_checkbox()
-	_rust_backtrace = null
-	
-	_cargo_build.remove_button()
-	_cargo_build = null
+	remove_control_from_container(EditorPlugin.CONTAINER_TOOLBAR, _toolbar)
+	_toolbar.queue_free()
+	_toolbar = null
 
 func _build() -> bool:
-	return _cargo_build.run()
+	return RustToolsCargoBuild.run()

@@ -4,7 +4,7 @@ extends RefCounted
 
 const ESC := "\u001B"
 
-var _foreground_colors := {
+static var _foreground_colors := {
 	30: "black",
 	31: "red",
 	32: "green",
@@ -15,47 +15,8 @@ var _foreground_colors := {
 	37: "white",
 }
 
-var _editor_plugin: EditorPlugin
-var _button: BaseButton
-
-func _init(plugin: EditorPlugin) -> void:
-	_editor_plugin = plugin
-
-func add_button() -> void:
-	var key_event := InputEventKey.new()
-	key_event.keycode = KEY_B
-	key_event.ctrl_pressed = true
-	key_event.shift_pressed = true
-	var shortcut := Shortcut.new()
-	shortcut.events.append(key_event)
-	
-	_button = Button.new()
-	_button.icon = preload("res://addons/rust_tools/BuildRust.svg")
-	_button.tooltip_text = 'Build Rust Project (cargo build)'
-	_button.shortcut = shortcut
-	_button.pressed.connect(_button_pressed)
-	_editor_plugin.add_control_to_container(EditorPlugin.CONTAINER_TOOLBAR, _button)
-	
-	# Move the checkbox to the left of the Run Project button (best-effort).
-	var parent := _button.get_parent()
-	for container in parent.find_children("", "HBoxContainer", true, false):
-		if container.get_parent() is PanelContainer:
-			parent.remove_child(_button)
-			container.add_child(_button)
-			container.move_child(_button, 0)
-			break
-
-func remove_button() -> void:
-	_button.queue_free()
-	_button = null
-
-func _button_pressed() -> void:
-	# TODO This could be done asynchronously using OS.execute_with_pipe, which would take some
-	# refactoring of run().
-	run()
-
 ## Invokes `cargo build`. Returns `true` if successful.
-func run() -> bool:
+static func run() -> bool:
 	var cargo_package_dirs := RustToolsSettings.get_cargo_package_directories()
 	if cargo_package_dirs.is_empty():
 		push_warning("No cargo package directories are configured, so no Rust code will be built. Go to Project > Project Settings... > Rust Tools and set Cargo Package Directories to a directory containing Cargo.toml, relative to the root of the Godot project.")
@@ -121,7 +82,7 @@ func run() -> bool:
 ## Converts terminal escape sequences to bbcode for display in Godot's console.
 ##
 ## [url]https://en.wikipedia.org/wiki/ANSI_escape_code#Colors[/url]
-func _color_codes_to_bbcode(input: String) -> String:
+static func _color_codes_to_bbcode(input: String) -> String:
 	var regex := RegEx.create_from_string(ESC + r"\[([\d;]*)m")
 	
 	var output := ""
@@ -182,7 +143,7 @@ func _color_codes_to_bbcode(input: String) -> String:
 ## Parses a 256-color escape sequence into a Godot [code]Color[/code].
 ##
 ## [url]https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit[/url]
-func _color256(code: int) -> Color:
+static func _color256(code: int) -> Color:
 	var r: int
 	var g: int
 	var b: int
@@ -216,7 +177,7 @@ func _color256(code: int) -> Color:
 	return Color.from_rgba8(r, g, b)
 
 ## Converts ANSI terminal escape sequences for hyperlinks into bbcode [code][url][/code] tags.
-func _url_codes_to_bbcode(input: String) -> String:
+static func _url_codes_to_bbcode(input: String) -> String:
 	var regex := RegEx.create_from_string(ESC + r"\]8;;(.*?)" + ESC + r"\\(.*?)" + ESC + r"]8;;" + ESC + r"\\")
 	
 	var output := ""
