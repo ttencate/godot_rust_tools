@@ -25,8 +25,8 @@ func update_items(p_plugins_info: Array) -> void:
 	plugin_dirs.assign(plugins.keys())
 	for idx in plugin_dirs.size():
 		var plugin_dirname := plugin_dirs[idx]
-		var plugin_data = plugins[plugin_dirname] # Array[String] used as a Tuple<String, String>.
-		var plugin_name := plugin_data[0] as String
+		var plugin_data: Array = plugins[plugin_dirname] # Array[String] used as a Tuple<String, String>.
+		# var plugin_name := plugin_data[0] as String
 		var plugin_path := plugin_data[1] as String
 		var display_name := display_names_map[plugin_path] as String
 
@@ -36,7 +36,7 @@ func update_items(p_plugins_info: Array) -> void:
 
 # Note: For whatever reason, statically typing `p_name` inexplicably causes
 # an error about converting from Nil to String, even if the value is converted.
-func select_plugin(p_name) -> void:
+func select_plugin(p_name: String) -> void:
 	if not options or not p_name:
 		return
 

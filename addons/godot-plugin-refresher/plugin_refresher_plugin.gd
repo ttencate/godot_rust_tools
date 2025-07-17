@@ -46,9 +46,9 @@ func _reload_plugins_list() -> void:
 		if err:
 			push_error("ERROR LOADING PLUGIN FILE: %s" % err)
 		else:
-			var plugin_name := plugin_cfg.get_value("plugin", "name")
+			var plugin_name: Variant = plugin_cfg.get_value("plugin", "name")
 			if plugin_name != PLUGIN_NAME:
-				var addon_dir_name = cfg_path.split("addons/")[-1].split("/plugin.cfg")[0]
+				var addon_dir_name := cfg_path.split("addons/")[-1].split("/plugin.cfg")[0]
 				plugins[addon_dir_name] = [plugin_name, cfg_path]
 
 	# This will be an array of the addon/* directory names.
@@ -56,17 +56,17 @@ func _reload_plugins_list() -> void:
 	plugin_dirs.assign(plugins.keys()) # typed array "casting"
 
 	var plugin_names: Array[String] = []
-	plugin_names.assign(plugin_dirs.map(func(k): return plugins[k][0]))
+	plugin_names.assign(plugin_dirs.map(func(k: String) -> String: return plugins[k][0]))
 
 	for plugin_dirname in plugin_dirs:
-		var plugin_name = plugins[plugin_dirname][0]
-		var display_name = plugin_name if plugin_names.count(plugin_name) == 1 else "%s (%s)" % [plugin_name, plugin_dirname]
+		var plugin_name: String = plugins[plugin_dirname][0]
+		var display_name := plugin_name if plugin_names.count(plugin_name) == 1 else "%s (%s)" % [plugin_name, plugin_dirname]
 		display_names_map[plugins[plugin_dirname][1]] = display_name
 
 	refresher.update_items([plugins, display_names_map])
 
 
-func find_cfgs(dir_path: String, cfgs: Array):
+func find_cfgs(dir_path: String, cfgs: Array) -> void:
 	var dir := DirAccess.open(dir_path)
 	var cfg_path := dir_path.path_join("plugin.cfg")
 
@@ -112,7 +112,7 @@ func get_settings_path() -> String:
 func _on_filesystem_changed() -> void:
 	if refresher:
 		_reload_plugins_list()
-		var recent = get_recent_plugin()
+		var recent := get_recent_plugin()
 		if recent:
 			refresher.select_plugin(recent)
 
@@ -121,7 +121,7 @@ func get_recent_plugin() -> String:
 	if not plugin_config.has_section_key(SETTINGS, SETTING_RECENT):
 		return "" # not saved yet
 
-	var recent = str(plugin_config.get_value(SETTINGS, SETTING_RECENT))
+	var recent := str(plugin_config.get_value(SETTINGS, SETTING_RECENT))
 	return recent
 
 
