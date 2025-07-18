@@ -7,4 +7,4 @@ func _get_name() -> String:
 
 func _export_begin(_features: PackedStringArray, is_debug: bool, _path: String, _flags: int) -> void:
 	var profile := "dev" if is_debug else "release"
-	RustToolsCargo.build_sync(profile)
+	RustToolsCargo.build(profile).run_sync()

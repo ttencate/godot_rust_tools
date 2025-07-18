@@ -31,4 +31,4 @@ func _exit_tree() -> void:
 		_export_plugin = null
 
 func _build() -> bool:
-	return RustToolsCargo.build_sync("dev")
+	return RustToolsCargo.build("dev").run_sync()
