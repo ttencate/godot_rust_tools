@@ -21,12 +21,14 @@ func _enter_tree() -> void:
 			break
 
 func _exit_tree() -> void:
-	remove_control_from_container(EditorPlugin.CONTAINER_TOOLBAR, _toolbar)
-	_toolbar.queue_free()
-	_toolbar = null
+	if _toolbar:
+		remove_control_from_container(EditorPlugin.CONTAINER_TOOLBAR, _toolbar)
+		_toolbar.queue_free()
+		_toolbar = null
 	
-	remove_export_plugin(_export_plugin)
-	_export_plugin = null
+	if _export_plugin:
+		remove_export_plugin(_export_plugin)
+		_export_plugin = null
 
 func _build() -> bool:
 	return RustToolsCargo.build_sync("dev")
