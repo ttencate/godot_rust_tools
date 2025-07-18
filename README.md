@@ -1,7 +1,7 @@
 Godot Rust Tools 
 ================
 
-Godot Rust Tools, or "Rust Tools" for short, is a simple and lightweight plugin for [Godot](https://godotengine.org/) 4 to help during development of Godot games that use Rust extensions through GDExtension.
+Godot Rust Tools, or "Rust Tools" for short, is a plugin for [Godot](https://godotengine.org/) 4 to help during development of Godot games that use Rust extensions through GDExtension.
 
 [godot-rust](https://godot-rust.github.io/) is the canonical library for Rust bindings, but this plugin is not dependent on it and can work just as well with custom bindings.
 
