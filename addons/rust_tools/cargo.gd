@@ -26,7 +26,8 @@ static func clean() -> RustToolsCargo:
 ## command fail. This is a bit awkward, but makes call sites simpler because they don't have to do
 ## error checking twice (once after construction, once after running).
 func _init(args: PackedStringArray) -> void:
-	args.append("--color=always")
+	_args = args
+	_args.append("--color=always")
 	
 	_cargo_executable = RustToolsSettings.get_cargo_executable()
 	if _cargo_executable.contains('/') or _cargo_executable.contains('\\'):
