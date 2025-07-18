@@ -32,21 +32,33 @@ Build output goes to the Output pane at the bottom:
 Configuration
 -------------
 
+## Editor Settings
+
 ### Path to `cargo` executable
 
-If you don't have `cargo` in your `PATH`, you need to tell the editor where to find it. Go to Editor > Editor Settings… > Rust Tools, and set `Cargo Executable` to the absolute path to the `cargo` or `cargo.exe` executable:
-
-![Screenshot of Editor Settings, showing the above setting being set to /usr/bin/cargo.](readme_images/editor_settings.png)
+If you don't have `cargo` in your `PATH`, you need to tell the editor where to find it. Go to Editor > Editor Settings… > Rust Tools, and set `Cargo Executable` to the absolute path to the `cargo` or `cargo.exe` executable.
 
 The default, plain `cargo`, is fine if its containing directory is on your `PATH`.
+
+### Enable/disable autoreload
+
+If you don't want to autoreload the extensions when building or playing, you can disable it (it's enabled by default). Go to Editor > Editor Settings… > Rust Tools, and set `Enable Autoreload` to false through the checkbox.
+
+![Screenshot of Editor Settings, showing the above settings configured.](readme_images/editor_settings.png)
+
+## Project Settings
 
 ### Path to your Rust project(s)
 
 You need to tell Rust Tools which cargo package(s) to build. You can do that under Project > Project Settings… > Rust Tools by adding their path(s) to the `Cargo Package Directories` setting:
 
-![Screenshot of Project Settings, showing the above setting being set to example_extension](readme_images/project_settings.png)
-
 Note that this path is relative to the Godot project itself. If your Rust code is in a subdirectory, specify its name here. If it's in a sibling directory, use something like "../rust".
+
+### GDExtension files' paths
+
+You need to tell Rust Tools which GDExtension(s) to reload, as to not reload all of them meaninglessly on build. You can do that under Project > Project Settings… > Rust Tools by adding the path(s) to their gdextension file(s) to the `Gdextension Files` setting:
+
+![Screenshot of Project Settings, showing the above settings being set](readme_images/project_settings.png)
 
 License
 -------
