@@ -14,10 +14,14 @@ func _ready() -> void:
 	%BuildButton.pressed.connect(_build_button_pressed)
 
 func _clean_button_pressed() -> void:
-	RustToolsCargo.clean().run_async()
+	# We need to await here even if we don't care about the outcome, because otherwise the
+	# object gets deleted before the coroutine finishes running, which aborts the coroutine.
+	await RustToolsCargo.clean().run_async()
 
 func _build_button_pressed() -> void:
-	RustToolsCargo.build("dev").run_async()
+	# We need to await here even if we don't care about the outcome, because otherwise the
+	# object gets deleted before the coroutine finishes running, which aborts the coroutine.
+	await RustToolsCargo.build("dev").run_async()
 
 func _rust_backtrace_check_box_toggled(on: bool) -> void:
 	RustToolsEnvironment.set_rust_backtrace(on)
