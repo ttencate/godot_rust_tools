@@ -44,8 +44,6 @@ The default, plain `cargo`, is fine if its containing directory is on your `PATH
 
 If you don't want to autoreload the extensions when building or playing, you can disable it (it's enabled by default). Go to Editor > Editor Settings… > Rust Tools, and set `Enable Autoreload` to false through the checkbox.
 
-![Screenshot of Editor Settings, showing the above settings configured.](readme_images/editor_settings.png)
-
 ## Project Settings
 
 ### Path to your Rust project(s)
@@ -57,8 +55,6 @@ Note that this path is relative to the Godot project itself. If your Rust code i
 ### GDExtension files' paths
 
 You need to tell Rust Tools which GDExtension(s) to reload, as to not reload all of them meaninglessly on build. You can do that under Project > Project Settings… > Rust Tools by adding the path(s) to their gdextension file(s) to the `Gdextension Files` setting:
-
-![Screenshot of Project Settings, showing the above settings being set](readme_images/project_settings.png)
 
 License
 -------

@@ -34,8 +34,7 @@ func run_sync() -> bool:
 		var subprocess := _new_subprocess(cargo_package_dir)
 		if not subprocess.run_sync():
 			return false
-	if RustToolsSettings.get_enable_autoreload():
-		reload_gdextensions()
+	RustToolsSettings.reload_gdextensions()
 	return true
 
 ## Runs this command asynchronously (as a coroutine) in all package directories.
@@ -49,14 +48,8 @@ func run_async() -> bool:
 			return false
 		if not await subprocess.finished:
 			return false
-	if RustToolsSettings.get_enable_autoreload():
-		reload_gdextensions()
+	RustToolsSettings.reload_gdextensions()
 	return true
-
-## Reloads the extensions specified in the project settings in a deferred call.
-func reload_gdextensions() -> void:
-	for extension in RustToolsSettings.get_gdextension_files():
-		GDExtensionManager.reload_extension.call_deferred(extension)
 
 ## Checks up front for any situations that are guaranteed to make the command fail, so we can report
 ## a more useful error message.
@@ -70,17 +63,17 @@ func _preflight_check_ok() -> bool:
 	else:
 		# We are depending on cargo being in the PATH, but have no easy way to check for it.
 		pass
-	
+
 	if _cargo_package_dirs.is_empty():
 		push_warning("No cargo package directories are configured, so no Rust code will be built. Go to Project > Project Settings... > Rust Tools and set Cargo Package Directories to a directory containing Cargo.toml, relative to the root of the Godot project.")
-	
+
 	for cargo_package_dir in _cargo_package_dirs:
 		if not FileAccess.file_exists(cargo_package_dir + "/Cargo.toml"):
 			push_error(
 				"The configured cargo package directory '%s' does not contain a Cargo.toml file." %
 				[cargo_package_dir])
 			return false
-	
+
 	return true
 
 ## Creates an [i]unstarted[/i] subprocess to run this cargo command in the given directory.
