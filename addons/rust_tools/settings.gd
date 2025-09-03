@@ -11,8 +11,9 @@ const _ENABLE_AUTORELOAD := "rust_tools/enable_autoreload"
 const _ENABLE_AUTORELOAD_INITIAL_VALUE := true
 
 # Project settings
+<<<<<<< HEAD
 const _CARGO_PACKAGE_DIRECTORIES := "rust_tools/cargo_package_directories"
-const _GDEXTENSION_FILES := "rust_tools/gdextension_files"
+const _GENERATED_CONSTANTS_FILE_PATHS := "rust_tools/config/generated_constants/generated_constants_file_paths"
 
 ## Registers all project and editor settings.
 static func register() -> void:
@@ -24,6 +25,7 @@ static func register() -> void:
 	# whereas we want a relative path.
 	_register_project_setting(_CARGO_PACKAGE_DIRECTORIES, PackedStringArray(), TYPE_PACKED_STRING_ARRAY, PROPERTY_HINT_NONE, "", true)
 	_register_project_setting(_GDEXTENSION_FILES, PackedStringArray(), TYPE_PACKED_STRING_ARRAY, PROPERTY_HINT_TYPE_STRING, "%d/%d:*.gdextension" % [TYPE_STRING, PROPERTY_HINT_FILE], true)
+	_register_project_setting(_GENERATED_CONSTANTS_FILE_PATHS, PackedStringArray(), TYPE_PACKED_STRING_ARRAY, PROPERTY_HINT_NONE, "", true)
 
 ## Registers a single editor setting.
 static func _register_editor_setting(name: String, initial_value: Variant, type: Variant.Type, hint: PropertyHint, hint_string: String) -> void:

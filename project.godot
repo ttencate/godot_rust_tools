@@ -13,7 +13,7 @@ config_version=5
 config/name="Godot Rust Tools"
 config/description="This is the Godot project containing the Godot Rust Tools plugin. This project is only needed for development of the plugin itself. To use the plugin for your own project, you only need the contents of the addons/rust_tools folder."
 run/main_scene="uid://bk7wo4wybejwf"
-config/features=PackedStringArray("4.5")
+config/features=PackedStringArray("4.4")
 
 [debug]
 
@@ -28,6 +28,10 @@ gdscript/warnings/untyped_declaration=2
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot-plugin-refresher/plugin.cfg", "res://addons/rust_tools/plugin.cfg")
+
+[global_group]
+
+"some test group"=""
 
 [importer_defaults]
 
@@ -60,6 +64,23 @@ texture={
 "svg/scale": 1.0
 }
 
+[input]
+
+"some action"={
+"deadzone": 0.2,
+"events": []
+}
+
+[layer_names]
+
+2d_render/layer_1="ren der er"
+3d_render/layer_1="render 3D"
+2d_physics/layer_1="My cool layer name or something"
+3d_physics/layer_1="my cool physics layer"
+3d_navigation/layer_1="navigation layer_i_guess"
+3d_physics/layer_2="my other equally cool physics layer"
+avoidance/layer_1="avoidance_layer_A"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
@@ -67,5 +88,6 @@ renderer/rendering_method.mobile="gl_compatibility"
 
 [rust_tools]
 
-cargo_package_directories=PackedStringArray("example_extension")
-gdextension_files=PackedStringArray("uid://2fsssp3dq5f0")
+config/gdextension_files=PackedStringArray("uid://2fsssp3dq5f0")
+config/cargo_package_directories=PackedStringArray("example_extension")
+config/generated_constants/generated_constants_file_paths=PackedStringArray("example_extension/src/project_constants.rs")
