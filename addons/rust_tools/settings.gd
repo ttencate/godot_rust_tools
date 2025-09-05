@@ -11,21 +11,21 @@ const _ENABLE_AUTORELOAD := "rust_tools/enable_autoreload"
 const _ENABLE_AUTORELOAD_INITIAL_VALUE := true
 
 # Project settings
-<<<<<<< HEAD
-const _CARGO_PACKAGE_DIRECTORIES := "rust_tools/cargo_package_directories"
-const _GENERATED_CONSTANTS_FILE_PATHS := "rust_tools/config/generated_constants/generated_constants_file_paths"
+const _CARGO_PACKAGE_DIRECTORIES := "rust_tools/config/build/cargo_package_directories"
+const _GDEXTENSION_FILES := "rust_tools/config/build/gdextension_files"
+const GENERATED_CONSTANTS_FILE_PATHS := "rust_tools/config/generated_constants/generated_constants_file_paths"
 
 ## Registers all project and editor settings.
 static func register() -> void:
 	_register_editor_setting(_CARGO_EXECUTABLE, _CARGO_EXECUTABLE_INITIAL_VALUE, TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE, "")
 	_register_editor_setting(_ENABLE_AUTORELOAD, _ENABLE_AUTORELOAD_INITIAL_VALUE, TYPE_BOOL, PROPERTY_HINT_NONE, "")
-	
+
 	# We do not use PROPERTY_HINT_DIR, because it only allows directories inside the Godot project.
 	# And we do not use PROPERTY_HINT_GLOBAL_DIR either, because it fills out an absolute path,
 	# whereas we want a relative path.
 	_register_project_setting(_CARGO_PACKAGE_DIRECTORIES, PackedStringArray(), TYPE_PACKED_STRING_ARRAY, PROPERTY_HINT_NONE, "", true)
 	_register_project_setting(_GDEXTENSION_FILES, PackedStringArray(), TYPE_PACKED_STRING_ARRAY, PROPERTY_HINT_TYPE_STRING, "%d/%d:*.gdextension" % [TYPE_STRING, PROPERTY_HINT_FILE], true)
-	_register_project_setting(_GENERATED_CONSTANTS_FILE_PATHS, PackedStringArray(), TYPE_PACKED_STRING_ARRAY, PROPERTY_HINT_NONE, "", true)
+	_register_project_setting(GENERATED_CONSTANTS_FILE_PATHS, PackedStringArray(), TYPE_PACKED_STRING_ARRAY, PROPERTY_HINT_NONE, "", true)
 
 ## Registers a single editor setting.
 static func _register_editor_setting(name: String, initial_value: Variant, type: Variant.Type, hint: PropertyHint, hint_string: String) -> void:

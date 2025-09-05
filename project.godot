@@ -13,7 +13,7 @@ config_version=5
 config/name="Godot Rust Tools"
 config/description="This is the Godot project containing the Godot Rust Tools plugin. This project is only needed for development of the plugin itself. To use the plugin for your own project, you only need the contents of the addons/rust_tools folder."
 run/main_scene="uid://bk7wo4wybejwf"
-config/features=PackedStringArray("4.4")
+config/features=PackedStringArray("4.5")
 
 [debug]
 
@@ -70,6 +70,10 @@ texture={
 "deadzone": 0.2,
 "events": []
 }
+adf={
+"deadzone": 0.2,
+"events": []
+}
 
 [layer_names]
 
@@ -88,6 +92,6 @@ renderer/rendering_method.mobile="gl_compatibility"
 
 [rust_tools]
 
-config/gdextension_files=PackedStringArray("uid://2fsssp3dq5f0")
-config/cargo_package_directories=PackedStringArray("example_extension")
+config/build/cargo_package_directories=PackedStringArray("example_extension")
+config/build/gdextension_files=PackedStringArray("uid://2fsssp3dq5f0")
 config/generated_constants/generated_constants_file_paths=PackedStringArray("example_extension/src/project_constants.rs")
