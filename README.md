@@ -29,23 +29,41 @@ Build output goes to the Output pane at the bottom:
 
 `cargo build` is also invoked automatically when you run or export your project, so you'll never get out-of-date code. However, due to limitations in the Godot API, these invocations must run synchronously, blocking the editor UI.
 
+Before you can run the build, you will need to tell Rust Tools about your Rust code; see the REQUIRED items under [Configuration](#Configuration) below.
+
 Configuration
 -------------
 
-### Path to `cargo` executable
+### Project Settings
 
-If you don't have `cargo` in your `PATH`, you need to tell the editor where to find it. Go to Editor > Editor Settings… > Rust Tools, and set `Cargo Executable` to the absolute path to the `cargo` or `cargo.exe` executable.
+These can be found under Project > Project Settings… > Rust Tools.
 
-The default, plain `cargo`, is fine if its containing directory is on your `PATH`.
+- **Cargo Package Directories** (REQUIRED)
 
-### Path to your Rust project(s)
+  You need to tell Rust Tools which cargo package(s) to build, by adding their path(s) to the Cargo Package Directories setting.
 
-You need to tell Rust Tools which cargo package(s) to build. You can do that under Project > Project Settings… > Rust Tools by adding their path(s) to the `Cargo Package Directories` setting.
+  Note that this path is relative to the Godot project itself, so:
 
-Note that this path is relative to the Godot project itself, so:
+  - If the Rust code is in a subfolder of the Godot project, specify the name of that folder here.
+  - If the Rust code is in a sibling folder next to the Godot project, use ".." to indicate the parent folder, for example "../rust".
 
-- If the Rust code is in a subfolder of the Godot project, specify the name of that folder here.
-- If the Rust code is in a sibling directory next to the Godot project, use ".." to indicate the parent folder, for example "../rust".
+- **Gdextension Files** (REQUIRED)
+
+  For autoreload to work, it needs to know which GDExtension files need to be reloaded. Specify those here.
+
+### Editor Settings
+
+These settings apply to all projects using Rust Tools, and can be found under Editor > Editor Settings… > Rust Tools.
+
+- **Cargo Executable**
+
+  If you don't have `cargo` in your `PATH`, you need to tell the editor where to find it. Set `Cargo Executable` to the absolute path to the `cargo` or `cargo.exe` executable.
+
+  The default, plain `cargo`, is fine if its containing folder is on your `PATH`.
+
+- **Enable Autoreload**
+
+  By default, Rust Tools automatically reloads extensions after a rebuild. You can turn that off here. (Normally, Godot only reloads after the editor window loses and regains focus.)
 
 License
 -------
