@@ -1,4 +1,4 @@
-Godot Rust Tools 
+Godot Rust Tools
 ================
 
 Godot Rust Tools, or "Rust Tools" for short, is a plugin for [Godot](https://godotengine.org/) 4 to help with development of [extensions](https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/what_is_gdextension.html) written in [Rust](https://www.rust-lang.org/).
@@ -7,6 +7,8 @@ Godot Rust Tools, or "Rust Tools" for short, is a plugin for [Godot](https://god
 
 Installation
 ------------
+
+Requires Godot 4.5 or greater.
 
 Download this plugin's project files from GitHub. Copy the `addons/rust_tools` folder to the `addons` folder in your own Godot project, creating it if necessary. Files outside `addons/rust_tools` are not needed to use the plugin.
 
@@ -51,6 +53,10 @@ These can be found under Project > Project Settings… > Rust Tools.
 
   For autoreload to work, it needs to know which GDExtension files need to be reloaded. Specify those here.
 
+- ** Generated Constants File Paths**
+
+  If specified Rust tools will automatically generate constants containing InputActions, Global Groups names and user-defined Layer Names. The file will be generated upon detecing a change in project settings; you can trigger it manually as well by using CommandPalette (ctrl+shift+p) Rust Tools -> Regenerate Constants.
+
 ### Editor Settings
 
 These settings apply to all projects using Rust Tools, and can be found under Editor > Editor Settings… > Rust Tools.
@@ -64,6 +70,7 @@ These settings apply to all projects using Rust Tools, and can be found under Ed
 - **Enable Autoreload**
 
   By default, Rust Tools automatically reloads extensions after a rebuild. You can turn that off here. (Normally, Godot only reloads after the editor window loses and regains focus.)
+
 
 License
 -------
