@@ -31,4 +31,13 @@ func _exit_tree() -> void:
 		_export_plugin = null
 
 func _build() -> bool:
-	return RustToolsCargo.build("dev").run_sync()
+	var build_success := RustToolsCargo.build("dev").run_sync()
+	if not build_success:
+		return false
+	
+	if RustToolsSettings.get_enable_autoreload():
+		# This may also fail, but we don't consider that a build failure because it shouldn't block
+		# running the game.
+		RustToolsGdextension.reload_all()
+	
+	return true

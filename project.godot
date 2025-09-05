@@ -68,3 +68,4 @@ renderer/rendering_method.mobile="gl_compatibility"
 [rust_tools]
 
 cargo_package_directories=PackedStringArray("example_extension")
+gdextension_files=PackedStringArray("uid://2fsssp3dq5f0")
