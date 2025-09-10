@@ -2,30 +2,12 @@
 class_name RustToolsToolbar
 extends Control
 
+@onready var clean_button := %CleanButton
+@onready var build_button := %BuildButton
+@onready var backtrace_button := %RustBacktraceButton
+
+
 func _ready() -> void:
 	# Reuse internal editor theme, discovered by reading the source code in
 	# editor/gui/editor_run_bar.cpp.
 	add_theme_stylebox_override("panel", get_theme_stylebox("LaunchPadNormal", "EditorStyles"))
-	
-	%RustBacktraceButton.button_pressed = RustToolsEnvironment.get_rust_backtrace()
-	
-	%RustBacktraceButton.toggled.connect(_rust_backtrace_check_box_toggled)
-	%CleanButton.pressed.connect(_clean_button_pressed)
-	%BuildButton.pressed.connect(_build_button_pressed)
-
-func _clean_button_pressed() -> void:
-	# We need to await here even if we don't care about the outcome, because otherwise the
-	# RustToolsCargo object gets deleted before the coroutine finishes running, which aborts the
-	# coroutine.
-	await RustToolsCargo.clean().run_async()
-
-func _build_button_pressed() -> void:
-	var build_success := await RustToolsCargo.build("dev").run_async()
-	if not build_success:
-		return
-	
-	if RustToolsSettings.get_enable_autoreload():
-		RustToolsGdextension.reload_all()
-
-func _rust_backtrace_check_box_toggled(on: bool) -> void:
-	RustToolsEnvironment.set_rust_backtrace(on)

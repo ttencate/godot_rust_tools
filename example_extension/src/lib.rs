@@ -1,5 +1,8 @@
-use godot::classes::{ISprite2D, Sprite2D};
+use godot::classes::{ISprite2D, Input, Sprite2D};
 use godot::prelude::*;
+
+use crate::project_constants::input_actions::UI_ACCEPT;
+mod project_constants;
 
 struct ExampleExtension;
 
@@ -20,6 +23,9 @@ struct Spinning {
 #[godot_api]
 impl ISprite2D for Spinning {
     fn physics_process(&mut self, delta: f32) {
+        if Input::singleton().is_action_just_pressed(UI_ACCEPT) {
+            godot_print!("Hello world!");
+        }
         let angle_delta = self.angular_speed * delta;
         self.base_mut().rotate(angle_delta);
     }
