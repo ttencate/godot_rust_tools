@@ -53,7 +53,7 @@ These can be found under Project > Project Settings… > Rust Tools.
 
   For autoreload to work, it needs to know which GDExtension files need to be reloaded. Specify those here.
 
-- ** Generated Constants File Paths**
+- **Generated Constants File Paths**
 
   If specified Rust tools will automatically generate constants containing InputActions, Global Groups names and user-defined Layer Names. The file will be generated upon detecing a change in project settings; you can trigger it manually as well by using CommandPalette (ctrl+shift+p) Rust Tools -> Regenerate Constants.
 
