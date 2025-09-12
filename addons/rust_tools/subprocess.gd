@@ -35,11 +35,13 @@ func set_working_dir(working_dir: String) -> void:
 ## Returns [code]true[/code] if successful.
 func run_sync() -> bool:
 	var command_line := _shell_command_with_chdir()
+	if command_line.is_empty():
+		return false
 	var output := []
 	var read_stderr := true
 	var open_console := false
 	var exit_code := OS.execute(command_line.path, command_line.arguments, output, read_stderr, open_console)
-	
+
 	var color_output := RustToolsAnsiEscapeCodes.to_bbcode(output[0])
 	print_rich(color_output)
 
@@ -49,14 +51,16 @@ func run_sync() -> bool:
 ## Returns [code]true[/code] if started successfully.
 func run_async() -> bool:
 	var command_line := _shell_command_with_chdir()
+	if command_line.is_empty():
+		return false
 	var blocking := true
 	var dict := OS.execute_with_pipe(command_line.path, command_line.arguments, blocking)
 	if dict.is_empty():
 		return false
-	
+
 	var pid: int= dict.pid
 	_pid = pid
-	
+
 	var stdio: FileAccess = dict.stdio
 	var stderr: FileAccess = dict.stderr
 	_poll_thread = Thread.new()
@@ -65,7 +69,7 @@ func run_async() -> bool:
 	_poll_thread.start(func() -> void: _poll_process(pid))
 	_stdout_thread.start(func() -> void: _read_process_output(stdio))
 	_stderr_thread.start(func() -> void: _read_process_output(stderr))
-	
+
 	return true
 
 ## Kills the running process.
@@ -82,22 +86,22 @@ func _poll_process(pid: int) -> void:
 	var exit_code := OS.get_process_exit_code(pid)
 	var success := exit_code == 0
 	# Use call_deferred to make sure that signal handlers run on the main thread.
-	call_deferred("_process_finished", success)
+	_process_finished.call_deferred(success)
 
 ## Called on the main thread once the process is finished.
 func _process_finished(success: bool) -> void:
 	if _stdout_thread:
 		_stdout_thread.wait_to_finish()
 		_stdout_thread = null
-	
+
 	if _stderr_thread:
 		_stderr_thread.wait_to_finish()
 		_stderr_thread = null
-	
+
 	if _poll_thread:
 		_poll_thread.wait_to_finish()
 		_poll_thread = null
-	
+
 	finished.emit(success)
 
 ## Main loop for output-reading threads.
@@ -116,34 +120,51 @@ func _notification(what: int) -> void:
 		# one that'll clean up (wait on) the helper threads.
 		pass
 
+## Constructs the shell command [code]Dictionary[/code] with changing directory,
+## accounting for the OS. If it couldn't be constructed, returns an empty
+## [code]Dictionary[/code].
 func _shell_command_with_chdir() -> Dictionary:
 	# Spawn a shell to change directory first, because Godot's process API does not support that.
 	# Using cargo's `--manifest-path` makes it ignore `.cargo/config.toml`, so that's not an option.
 	# There is `cargo -C DIR build` but it's nightly only (as of 1.87.0), so that's not an option
 	# either.
-	match OS.get_name():
-		"Web":
-			# No process spawning, no Rust toolchain. Can't be done.
-			push_error("Rust Tools is not supported on the web")
-			return {}
-		"Windows":
-			# I'm not sure about the cmd.exe incantation. It's probably similar. PRs welcome.
-			push_error("Rust Tools is not supported on Windows yet")
-			return {}
-		_:
-			# All other platforms are Unix-like enough to have an sh-compatible shell.
+	var os: String = OS.get_name()
+
+	match os:
+		"Linux", "FreeBSD", "NetBSD", "OpenBSD", "BSD", "Android", "macOS":
 			# From the manual: "Enclosing characters in single quotes preserves the literal
 			# value of each character within the quotes. A single quote may not occur between
 			# single quotes, even when preceded by a backslash."
 			# This case is rare enough that we don't need to support it, but we can detect it.
 			if "'" in _working_dir:
-				push_error("Path %s contains a single quote, which is not supported" % [_working_dir])
+				push_error("Path %s contains a single quote, which is not supported" % _working_dir)
 				return {}
-			var shell_command := (
-				"cd '%s' && %s %s" %
-				[_working_dir, _command, ' '.join(_args)]
-			)
+
+			# All other platforms are Unix-like enough to have an sh-compatible shell.
 			return {
 				"path": "/bin/sh",
-				"arguments": ["-c", shell_command],
+				"arguments": ["-c", (
+						"cd '%s' && %s %s" %
+						[_working_dir, _command, ' '.join(_args)]
+					)],
 			}
+		"Windows":
+			# In CMD, we need to enclose the _working_dir in double
+			# quotes to allow for spaces, and thus, need to double the
+			# double quotes to escape them.
+			# Similar to Unix, but using cmd.exe and /c, requiring double quotes instead and using /d to allow for different drives.
+			return {
+				"path": "cmd.exe",
+				"arguments": ["/c", (
+					"cd /d \"%s\" && %s %s" %
+					[_working_dir.replace('"', '""'), _command, ' '.join(_args)]
+				)],
+			}
+		"Web", "iOS":
+			# No process spawning, no Rust toolchain. Can't be done.
+			push_error("Rust tools is not supported on %s, since no commands can be launched from the Godot Editor. Contact the developer if you think there is a way." % os)
+			return {}
+		_:
+			# New OS supported by Godot, needs an update.
+			push_error("Rust tools is not supported on %s, because it's an OS added after the last revision of the code. Contact the developer to let them know there is a new OS to evaluate." % os)
+			return {}

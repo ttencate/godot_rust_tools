@@ -5,6 +5,13 @@ Godot Rust Tools, or "Rust Tools" for short, is a plugin for [Godot](https://god
 
 [gdext](https://godot-rust.github.io/) is the canonical and recommended library for using GDExtension from Rust, but this plugin does not depend on it and can work just as well with custom bindings.
 
+Supported Platforms
+------------
+
+- Linux & Windows: Supported and tested, it should work right out the box.
+- Android: Supported but untested, it should work right out the box for rooted devices.
+- MacOS: Supported but untested, unclear if it works for the non-console version of the editor, report if works / doesn't work.
+
 Installation
 ------------
 
