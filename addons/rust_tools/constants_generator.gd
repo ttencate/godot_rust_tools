@@ -200,7 +200,7 @@ static func _make_const_name(name: String) -> String:
 
 
 static func _make_str_constant_decl(name: String) -> String:
-	return '    pub const {formatted_name}: &\'static str = "{value}";\n'.format(
+	return '    pub const {formatted_name}: &str = "{value}";\n'.format(
 		{formatted_name = _make_const_name(name), value = name}
 	)
 
