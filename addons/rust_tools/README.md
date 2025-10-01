@@ -7,8 +7,15 @@ Godot Rust Tools, or "Rust Tools" for short, is a plugin for [Godot](https://god
 
 [gdext](https://godot-rust.github.io/) is the canonical and recommended library for using GDExtension from Rust, but this plugin does not depend on it and can work just as well with custom bindings.
 
+Features
+--------
+
+- Build Rust code right from the Godot editor, and automatically reload the extension if the build succeeds. Builds are also triggered automatically when running your game.
+- Enable Rust backtraces when running your game.
+- Automatically generate Rust constants for names defined in the editor: input actions, layer names and global groups.
+
 Supported Platforms
-------------
+-------------------
 
 - Linux & Windows: Supported and tested, it should work right out the box.
 - Android: Supported but untested, it should work right out the box for rooted devices.
@@ -64,7 +71,7 @@ These can be found under Project > Project Settings… > Rust Tools.
 
 - **Generated Constants File Paths**
 
-  If specified Rust tools will automatically generate constants containing InputActions, Global Groups names and user-defined Layer Names. The file will be generated upon detecing a change in project settings; you can trigger it manually as well by using CommandPalette (ctrl+shift+p) Rust Tools -> Regenerate Constants.
+  If specified, Rust Tools will automatically generate constants containing Input Actions, Global Groups names and user-defined Layer Names. The file will be (re)generated upon detecing a change in project settings, and right before a build; you can trigger it manually by using the Command Palette (Ctrl+Shift+P) and choosing Rust Tools > Regenerate Constants.
 
 ### Editor Settings
 
