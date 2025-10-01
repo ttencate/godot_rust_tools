@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   height="128"
+   width="128"
+   id="svg39"
+   sodipodi:docname="icon.svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   inkscape:export-filename="icon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs39">
+    <mask
+       id="holes-3">
+      <rect
+         x="-60"
+         y="-60"
+         width="120"
+         height="120"
+         fill="#ffffff"
+         id="rect35-6" />
+      <circle
+         id="hole-7"
+         cy="-40"
+         r="3"
+         cx="0" />
+      <use
+         xlink:href="#hole-7"
+         transform="rotate(72)"
+         id="use36-5" />
+      <use
+         xlink:href="#hole-7"
+         transform="rotate(144)"
+         id="use37-3" />
+      <use
+         xlink:href="#hole-7"
+         transform="rotate(-144)"
+         id="use38-5" />
+      <use
+         xlink:href="#hole-7"
+         transform="rotate(-72)"
+         id="use39-6" />
+    </mask>
+  </defs>
+  <sodipodi:namedview
+     id="namedview39"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1"
+     inkscape:cx="29"
+     inkscape:cy="78.5"
+     inkscape:window-width="3436"
+     inkscape:window-height="1389"
+     inkscape:window-x="0"
+     inkscape:window-y="49"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg39"
+     showguides="true"
+     inkscape:export-bgcolor="#ffffffff" />
+  <g
+     id="logo-9"
+     transform="matrix(1.2190509,0,0,1.2190509,64,64)">
+    <g
+       id="gear-1"
+       mask="url(#holes-3)">
+      <circle
+         r="43"
+         fill="none"
+         stroke="#000000"
+         stroke-width="9"
+         id="circle1-2"
+         cx="0"
+         cy="0" />
+      <g
+         id="cogs-7">
+        <polygon
+           id="cog-0"
+           stroke="#000000"
+           stroke-width="3"
+           stroke-linejoin="round"
+           points="51,0 46,-3 46,3 " />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(11.25)"
+           id="use1-9" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(22.5)"
+           id="use2-3" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(33.75)"
+           id="use3-6" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(45)"
+           id="use4-0" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(56.25)"
+           id="use5-6" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(67.5)"
+           id="use6-2" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(78.75)"
+           id="use7-6" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(90)"
+           id="use8-1" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(101.25)"
+           id="use9-8" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(112.5)"
+           id="use10-7" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(123.75)"
+           id="use11-9" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(135)"
+           id="use12-2" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(146.25)"
+           id="use13-0" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(157.5)"
+           id="use14-2" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(168.75)"
+           id="use15-3" />
+        <use
+           xlink:href="#cog-0"
+           transform="scale(-1)"
+           id="use16-7" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-168.75)"
+           id="use17-5" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-157.5)"
+           id="use18-9" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-146.25)"
+           id="use19-2" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-135)"
+           id="use20-2" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-123.75)"
+           id="use21-8" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-112.5)"
+           id="use22-9" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-101.25)"
+           id="use23-7" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-90)"
+           id="use24-3" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-78.75)"
+           id="use25-6" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-67.5)"
+           id="use26-1" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-56.25)"
+           id="use27-2" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-45)"
+           id="use28-9" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-33.75)"
+           id="use29-3" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-22.5)"
+           id="use30-1" />
+        <use
+           xlink:href="#cog-0"
+           transform="rotate(-11.25)"
+           id="use31-9" />
+      </g>
+      <g
+         id="mounts-4">
+        <polygon
+           id="mount-7"
+           stroke="#000000"
+           stroke-width="6"
+           stroke-linejoin="round"
+           points="0,-35 7,-42 -7,-42 " />
+        <use
+           xlink:href="#mount-7"
+           transform="rotate(72)"
+           id="use32-8" />
+        <use
+           xlink:href="#mount-7"
+           transform="rotate(144)"
+           id="use33-4" />
+        <use
+           xlink:href="#mount-7"
+           transform="rotate(-144)"
+           id="use34-5" />
+        <use
+           xlink:href="#mount-7"
+           transform="rotate(-72)"
+           id="use35-0" />
+      </g>
+    </g>
+    <mask
+       id="mask43">
+      <rect
+         x="-60"
+         y="-60"
+         width="120"
+         height="120"
+         fill="#ffffff"
+         id="rect1" />
+      <circle
+         id="circle2"
+         cy="-40"
+         r="3"
+         cx="0" />
+      <use
+         xlink:href="#hole-7"
+         transform="rotate(72)"
+         id="use40" />
+      <use
+         xlink:href="#hole-7"
+         transform="rotate(144)"
+         id="use41" />
+      <use
+         xlink:href="#hole-7"
+         transform="rotate(-144)"
+         id="use42" />
+      <use
+         xlink:href="#hole-7"
+         transform="rotate(-72)"
+         id="use43" />
+    </mask>
+  </g>
+  <path
+     fill="#e0e0e0"
+     d="m 38.305029,42.503356 8.754186,15.165063 12.175842,-7.029932 21.089796,36.527525 c 4.686715,8.116942 16.862557,1.087011 12.175842,-7.029931 L 70.707906,42.390033 86.942362,33.016791 85.770707,30.987484 c 0,0 -5.858277,-10.146535 -18.034119,-3.116603 l -16.234456,9.373242 -2.239783,-1.067706 z"
+     id="path1-3"
+     style="fill:#478cbf;fill-opacity:1;stroke-width:4.68662"
+     sodipodi:nodetypes="ccccccccsccc" />
+  <path
+     style="fill:#478cbf;fill-opacity:1;stroke-width:17.7132;stroke-linejoin:round;paint-order:fill markers stroke"
+     d="M 33.205563,91.435524 V 68.002418 h 14.059864 v 4.686622 h -9.373243 v 18.746484 z"
+     id="path2"
+     sodipodi:nodetypes="ccccccc" />
+  <path
+     style="fill:#478cbf;fill-opacity:1;stroke-width:17.7132;stroke-linejoin:round;paint-order:fill markers stroke"
+     d="m 51.952048,68.002418 h 14.059864 v 4.686622 h -9.373243 v 4.686621 h 9.373243 V 91.435524 H 51.952048 v -4.686621 h 9.373242 v -4.686621 h -9.373242 z"
+     id="path3" />
+</svg>

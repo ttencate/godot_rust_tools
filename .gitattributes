@@ -1,2 +1,7 @@
-# Auto detect text files and perform LF normalization
+# Auto detect text files and perform LF normalization.
 * text=auto eol=lf
+
+# When downloading from the Asset Library, only include the addon's own folder.
+/**                   export-ignore
+/addons/rust_tools    !export-ignore
+/addons/rust_tools/** !export-ignore

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bk7wo4wybejwf"]
 
-[ext_resource type="Texture2D" uid="uid://boe6m3m4p30i" path="res://rust_logo.svg" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://cu8disy1otkk0" path="res://icon.svg" id="1_ig7tw"]
 
 [node name="Main" type="CenterContainer"]
 anchors_preset = 15
