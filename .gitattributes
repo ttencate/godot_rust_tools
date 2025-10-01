@@ -3,5 +3,6 @@
 
 # When downloading from the Asset Library, only include the addon's own folder.
 /**                   export-ignore
+/addons               !export-ignore
 /addons/rust_tools    !export-ignore
 /addons/rust_tools/** !export-ignore
