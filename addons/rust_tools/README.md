@@ -1,6 +1,8 @@
 Godot Rust Tools
 ================
 
+![Godot Rust Tools icon: a hammer inside the Rust gear, with small letters "rs" written next to it](icon.svg)
+
 Godot Rust Tools, or "Rust Tools" for short, is a plugin for [Godot](https://godotengine.org/) 4 to help with development of [extensions](https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/what_is_gdextension.html) written in [Rust](https://www.rust-lang.org/).
 
 [gdext](https://godot-rust.github.io/) is the canonical and recommended library for using GDExtension from Rust, but this plugin does not depend on it and can work just as well with custom bindings.
@@ -82,4 +84,8 @@ These settings apply to all projects using Rust Tools, and can be found under Ed
 License
 -------
 
-MIT, like Godot itself. See [LICENSE.md](LICENSE.md).
+This plugin is under the MIT license, like Godot itself. See [LICENSE.md](LICENSE.md).
+
+The Rust logo is distributed under the terms of the [Creative Commons Attribution license (CC-BY)](https://creativecommons.org/licenses/by/4.0/).
+
+This project is not affiliated with, or endorsed by, the Rust Project or Rust Foundation.
