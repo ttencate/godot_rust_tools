@@ -5,6 +5,10 @@ This file uses the format from [Keep a Changelog](https://keepachangelog.com/en/
 
 ## [Unreleased]
 
+n/a
+
+## [0.1.1] - 2025-10-03
+
 ### Changed
 
 - Small improvements to documentation.
