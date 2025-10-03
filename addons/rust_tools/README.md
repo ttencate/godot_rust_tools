@@ -14,19 +14,30 @@ Features
 - Enable Rust backtraces when running your game.
 - Automatically generate Rust constants for names defined in the editor: input actions, layer names and global groups.
 
-Supported Platforms
--------------------
+Requirements
+------------
 
-- Linux & Windows: Supported and tested, it should work right out the box.
-- Android: Supported but untested, it should work right out the box for rooted devices.
-- MacOS: Supported but untested, unclear if it works for the non-console version of the editor, report if works / doesn't work.
+The plugin requires Godot 4.5 or greater.
+
+Platform support:
+
+- Linux & Windows: Supported and tested, should work right out the box.
+- Android: Should work on rooted devices, but untested.
+- MacOS: Should be supported but untested; there may be problems with sandboxing. Please report if it works or doesn't work.
 
 Installation
 ------------
 
-Requires Godot 4.5 or greater.
+Installation from the [Godot Asset Libary](https://godotengine.org/asset-library/asset/4365) (recommended):
 
-Download this plugin's project files from GitHub. Copy the `addons/rust_tools` folder to the `addons` folder in your own Godot project, creating it if necessary. Files outside `addons/rust_tools` are not needed to use the plugin.
+1. Head over to the AssetLib tab in the Godot editor.
+2. Search for "Rust Tools".
+3. Click the plugin's icon or name, then follow the steps to download and install it.
+
+Manual installation:
+
+1. Download this plugin's project files from GitHub.
+2. Copy the `addons/rust_tools` folder to the `addons` folder in your own Godot project, creating it if necessary. Files outside `addons/rust_tools` are not needed to use the plugin.
 
 Usage
 -----

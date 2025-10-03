@@ -18,3 +18,15 @@ This plugin is 100% GDScript code, no Rust. This makes it easier to distribute i
 - Scripts should compile without warnings. We have some non-default warnings enabled in the project.
 - Follow the official [GDScript style guide](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_styleguide.html).
 - Public functions should be documented with `##` style comments.
+
+Documentation
+-------------
+
+Try to make UI self-documenting as much as possible. If that is not possible, document things in `README.md`.
+
+If your change is user-facing, add it to the "Unreleased" section in `CHANGELOG.md` as well. This can be done in the same commit as the change itself.
+
+Versioning
+----------
+
+Versioning of the plugin follows [Semantic Versioning](https://semver.org/). We consider something a "breaking change" if it requires user action after upgrading, for example if new required settings were added that must be configured.
