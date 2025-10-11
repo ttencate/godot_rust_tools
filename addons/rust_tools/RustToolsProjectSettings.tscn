@@ -1,0 +1,119 @@
+[gd_scene load_steps=4 format=3 uid="uid://4epjkqjon7fh"]
+
+[ext_resource type="Script" uid="uid://yqsu2ykw6ke3" path="res://addons/rust_tools/rust_tools_project_settings.gd" id="1_nmexe"]
+[ext_resource type="Texture2D" uid="uid://qd6dafrcyagy" path="res://addons/rust_tools/FileBrowse.svg" id="2_jq6t2"]
+[ext_resource type="Texture2D" uid="uid://b5k816ivfq0j" path="res://addons/rust_tools/FolderBrowse.svg" id="3_6vu7q"]
+
+[node name="RustToolsProjectSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nmexe")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Rust GDExtensions:"
+
+[node name="AddButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer/HSplitContainer"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+item_count = 1
+item_0/text = "res://example_extension.gdextension"
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HSplitContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/HSplitContainer/MarginContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="GdextensionFileLabel" type="Label" parent="VBoxContainer/HSplitContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "GDExtension File:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GdextensionFileLineEdit" type="LineEdit" parent="VBoxContainer/HSplitContainer/MarginContainer/GridContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "res://example_extension.gdextension"
+
+[node name="GdextensionFileBrowseButton" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/GridContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("2_jq6t2")
+
+[node name="CargoProjectPathLabel" type="Label" parent="VBoxContainer/HSplitContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Path To Cargo Project:"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CargoProjectPathLineEdit" type="LineEdit" parent="VBoxContainer/HSplitContainer/MarginContainer/GridContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "example_extension"
+
+[node name="CargoProjectPathBrowseButton" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/GridContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("3_6vu7q")
+
+[node name="GenerateConstantsLabel" type="Label" parent="VBoxContainer/HSplitContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Generate Rust Code For Project Constants:"
+
+[node name="GenerateConstantsCheckBox" type="CheckBox" parent="VBoxContainer/HSplitContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "On"
+
+[node name="GeneratedConstantsOutputFileLabel" type="Label" parent="VBoxContainer/HSplitContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Generated Output File:"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GeneratedConstantsOutputFileLineEdit" type="LineEdit" parent="VBoxContainer/HSplitContainer/MarginContainer/GridContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "src/project_constants.rs"
+
+[node name="GeneratedConstantsOutputFileBrowseButton" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/GridContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("2_jq6t2")

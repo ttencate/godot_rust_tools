@@ -1,9 +1,11 @@
 @tool
 extends EditorPlugin
 
-var _toolbar: RustToolsToolbar
-var _constants_generator: RustToolsConstantsFileGenerator
+
 var _export_plugin: RustToolsExportPlugin
+var _constants_generator: RustToolsConstantsFileGenerator
+var _toolbar: RustToolsToolbar
+var _project_settings: Control
 
 
 func _enter_tree() -> void:
@@ -11,19 +13,23 @@ func _enter_tree() -> void:
 
 	_export_plugin = RustToolsExportPlugin.new()
 	add_export_plugin(_export_plugin)
-	_add_toolbar()
+
 	_constants_generator = RustToolsConstantsFileGenerator.new()
+
+	_add_toolbar()
+	_add_project_settings()
 
 
 func _exit_tree() -> void:
+	_remove_project_settings()
 	_remove_toolbar()
+
+	if _constants_generator:
+		_constants_generator = null
 
 	if _export_plugin:
 		remove_export_plugin(_export_plugin)
 		_export_plugin = null
-
-	if _constants_generator:
-		_constants_generator = null
 
 
 func _build() -> bool:
@@ -41,10 +47,9 @@ func _add_toolbar() -> void:
 	# Move the toolbar to the left of the run bar (best-effort), because that's where the build
 	# button for C# is in the mono build as well.
 	var parent := _toolbar.get_parent()
-	for child in parent.get_children():
-		if child.name.contains("EditorRunBar"):
-			parent.move_child(_toolbar, child.get_index())
-			break
+	var editor_run_bar := _find_child_of_class(parent, "EditorRunBar")
+	if editor_run_bar:
+		parent.move_child(_toolbar, editor_run_bar.get_index())
 
 	_toolbar.build_button.pressed.connect(_build_async)
 	_toolbar.clean_button.pressed.connect(func() -> void: RustToolsCargo.clean().run_async())
@@ -59,8 +64,31 @@ func _remove_toolbar() -> void:
 		return
 
 	remove_control_from_container(EditorPlugin.CONTAINER_TOOLBAR, _toolbar)
-	_toolbar.queue_free()
+	_toolbar.free()
 	_toolbar = null
+
+
+## Adds a new tab "Rust Tools" to the Project Settings window.
+func _add_project_settings() -> void:
+	var project_settings_editor := _find_child_of_class(
+		EditorInterface.get_base_control(), "ProjectSettingsEditor")
+	if not project_settings_editor:
+		return
+	var tab_container := _find_child_of_class(project_settings_editor, "TabContainer")
+	if not tab_container:
+		return
+
+	var scene := load("res://addons/rust_tools/RustToolsProjectSettings.tscn") as PackedScene
+	_project_settings = scene.instantiate()
+	tab_container.add_child(_project_settings)
+
+
+## Removes any previously added "Rust Tools" tab from the Project Settings window.
+func _remove_project_settings() -> void:
+	if not _project_settings:
+		return
+	_project_settings.free()
+	_project_settings = null
 
 
 ## Freezes the editor while building.
@@ -93,6 +121,17 @@ func _pre_build() -> void:
 	_constants_generator.regenerate_constants_file()
 
 
+## Post-build hook. Contains all actions which should be triggered before the build.
 func _post_build() -> void:
 	if RustToolsSettings.get_enable_autoreload():
 		RustToolsGdextension.reload_all()
+
+
+## Returns the first child of the given node that has the given class name.
+## If not found, logs an error and returns [code]null[/code].
+static func _find_child_of_class(parent: Node, cls: String) -> Node:
+	for child in parent.get_children():
+		if child.get_class() == cls:
+			return child
+	push_error("Rust Tools: \"%s\" has no child of class \"%s\"" % [parent.get_path(), cls])
+	return null
