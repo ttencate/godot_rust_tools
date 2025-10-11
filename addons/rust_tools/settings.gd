@@ -9,6 +9,9 @@ const _CARGO_EXECUTABLE := "rust_tools/cargo_executable"
 const _CARGO_EXECUTABLE_INITIAL_VALUE := "cargo"
 const _ENABLE_AUTORELOAD := "rust_tools/enable_autoreload"
 const _ENABLE_AUTORELOAD_INITIAL_VALUE := true
+const _ENABLE_AUTOBUILD := "rust_tools/enable_autobuild"
+const _ENABLE_AUTOBUILD_INITIAL_VALUE := true
+
 
 # Project settings
 const _CARGO_PACKAGE_DIRECTORIES := "rust_tools/config/build/cargo_package_directories"
@@ -19,6 +22,7 @@ const GENERATED_CONSTANTS_FILE_PATHS := "rust_tools/config/generated_constants/g
 static func register() -> void:
 	_register_editor_setting(_CARGO_EXECUTABLE, _CARGO_EXECUTABLE_INITIAL_VALUE, TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE, "")
 	_register_editor_setting(_ENABLE_AUTORELOAD, _ENABLE_AUTORELOAD_INITIAL_VALUE, TYPE_BOOL, PROPERTY_HINT_NONE, "")
+	_register_editor_setting(_ENABLE_AUTOBUILD, _ENABLE_AUTOBUILD_INITIAL_VALUE, TYPE_BOOL, PROPERTY_HINT_NONE, "")
 
 	# We do not use PROPERTY_HINT_DIR, because it only allows directories inside the Godot project.
 	# And we do not use PROPERTY_HINT_GLOBAL_DIR either, because it fills out an absolute path,
@@ -72,6 +76,9 @@ static func get_cargo_package_directories() -> PackedStringArray:
 ## Returns the configured option to enable autoreloads or not.
 static func get_enable_autoreload() -> bool:
 	return _get_setting(_ENABLE_AUTORELOAD, _ENABLE_AUTORELOAD_INITIAL_VALUE, true, TYPE_BOOL)
+
+static func get_enable_autobuild() -> bool:
+	return _get_setting(_ENABLE_AUTOBUILD, _ENABLE_AUTOBUILD_INITIAL_VALUE, true, TYPE_BOOL)
 
 ## Returns the configured path to the .gdextension files this tool is managing.
 static func get_gdextension_files() -> PackedStringArray:
