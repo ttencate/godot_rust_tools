@@ -9,7 +9,7 @@ const _CARGO_EXECUTABLE := "rust_tools/cargo_executable"
 const _CARGO_EXECUTABLE_INITIAL_VALUE := "cargo"
 const _ENABLE_AUTORELOAD := "rust_tools/enable_autoreload"
 const _ENABLE_AUTORELOAD_INITIAL_VALUE := true
-const _ENABLE_AUTOBUILD := "rust_tools/enable_autobuild"
+const _ENABLE_AUTOBUILD := "rust_tools/enable_auto_build_before_run"
 const _ENABLE_AUTOBUILD_INITIAL_VALUE := true
 
 

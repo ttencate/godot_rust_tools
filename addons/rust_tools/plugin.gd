@@ -29,7 +29,7 @@ func _exit_tree() -> void:
 func _build() -> bool:
 	var autobuild := RustToolsSettings.get_enable_autobuild()
 	if not autobuild:
-		print_rich("  Godot Rust Tools: [b][color=green]Skipping automatic building[/color][/b]")
+		print_rich("  Godot Rust Tools: [b][color=green]Skipping build before running[/color][/b]")
 		return true
 	return _build_sync()
 
