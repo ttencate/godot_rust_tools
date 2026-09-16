@@ -5,7 +5,13 @@ This file uses the format from [Keep a Changelog](https://keepachangelog.com/en/
 
 ## [Unreleased]
 
-n/a
+### Added
+
+- Automatic build is now optional and can be toggled under Editor Settings > Rust Tools > Enable Build Before Run.
+
+### Fixed
+
+- Fixed wrong layer numbers in constants generator.
 
 ## [0.1.1] - 2025-10-03
 
