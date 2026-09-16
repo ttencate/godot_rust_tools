@@ -30,3 +30,24 @@ Versioning
 ----------
 
 Versioning of the plugin follows [Semantic Versioning](https://semver.org/). We consider something a "breaking change" if it requires user action after upgrading, for example if new required settings were added that must be configured.
+
+Releasing
+---------
+
+Prepare the release:
+
+- Update `CHANGELOG.md`.
+- Update the version in `addons/rust_tools/plugin.cfg`.
+- Tag the release commit using the format `vX.Y.Z`.
+
+Release on the Godot Asset Library (deprecated):
+
+- Push the tag to GitHub using `git push --tags`.
+- Go to <https://godotengine.org/asset-library/asset/4365/edit>.
+- Get the commit hash from `git log`.
+- Update the Asset Version and the Download Commit/URL.
+
+Release on the Godot Asset Store:
+
+- Run `./asset_store/package_release.sh <VERSION>` where `<VERSION>` is the tag you just created. This places a `.zip` file in `/tmp` and prints its output path.
+- Go to <https://store.godotengine.org/asset/thomastc/rust-tools/manage/#versions> and upload the new version.
