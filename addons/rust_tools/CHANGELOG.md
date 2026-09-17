@@ -5,6 +5,10 @@ This file uses the format from [Keep a Changelog](https://keepachangelog.com/en/
 
 ## [Unreleased]
 
+n/a
+
+## 0.2.0 - 2026-09-17
+
 ### Added
 
 - Automatic build is now optional and can be toggled under Editor Settings > Rust Tools > Enable Build Before Run.
@@ -13,7 +17,7 @@ This file uses the format from [Keep a Changelog](https://keepachangelog.com/en/
 
 - Fixed wrong layer numbers in constants generator.
 
-## [0.1.1] - 2025-10-03
+## 0.1.1 - 2025-10-03
 
 ### Changed
 
@@ -23,6 +27,6 @@ This file uses the format from [Keep a Changelog](https://keepachangelog.com/en/
 
 - ZIP file for Asset Library is no longer empty.
 
-## [0.1] - 2025-10-01
+## 0.1 - 2025-10-01
 
 - First release. The ZIP file in the Asset Library was accidentally empty.

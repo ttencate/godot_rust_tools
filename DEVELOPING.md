@@ -29,7 +29,7 @@ If your change is user-facing, add it to the "Unreleased" section in `CHANGELOG.
 Versioning
 ----------
 
-Versioning of the plugin follows [Semantic Versioning](https://semver.org/). We consider something a "breaking change" if it requires user action after upgrading, for example if new required settings were added that must be configured.
+Versioning of the plugin follows [Semantic Versioning](https://semver.org/). We consider something a "breaking change" and bump the major version if it requires user action after upgrading, for example if new required settings were added that must be configured. We consider something "new, backward compatible functionality" and bump the minor version if it introduces user-facing changes apart from bugfixes.
 
 Releasing
 ---------
