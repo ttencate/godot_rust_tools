@@ -65,7 +65,7 @@ Configuration
 
 ### Project Settings
 
-These can be found under Project > Project Settings… > Rust Tools.
+These can be found under Project > Project Settings (General) > Rust Tools.
 
 - **Cargo Package Directories** (REQUIRED)
 
