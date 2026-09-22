@@ -97,26 +97,26 @@ pub mod groups {
 }
 
 pub mod render_2d_layers {
-    pub const REN_DER_ER: u32 = 0;
+    pub const REN_DER_ER: u32 = 1;
 }
 
 pub mod render_3d_layers {
-    pub const RENDER_3D: u32 = 0;
+    pub const RENDER_3D: u32 = 1;
 }
 
 pub mod physics_2d_layers {
-    pub const MY_COOL_LAYER_NAME_OR_SOMETHING: u32 = 0;
+    pub const MY_COOL_LAYER_NAME_OR_SOMETHING: u32 = 1;
 }
 
 pub mod physics_3d_layers {
-    pub const MY_COOL_PHYSICS_LAYER: u32 = 0;
-    pub const MY_OTHER_EQUALLY_COOL_PHYSICS_LAYER: u32 = 1;
+    pub const MY_COOL_PHYSICS_LAYER: u32 = 1;
+    pub const MY_OTHER_EQUALLY_COOL_PHYSICS_LAYER: u32 = 2;
 }
 
 pub mod navigation_3d_layers {
-    pub const NAVIGATION_LAYER_I_GUESS: u32 = 0;
+    pub const NAVIGATION_LAYER_I_GUESS: u32 = 1;
 }
 
 pub mod avoidance_layers {
-    pub const AVOIDANCE_LAYER_A: u32 = 0;
+    pub const AVOIDANCE_LAYER_A: u32 = 1;
 }
