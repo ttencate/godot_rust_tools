@@ -28,13 +28,21 @@ Platform support:
 Installation
 ------------
 
-Installation from the [Godot Asset Libary](https://godotengine.org/asset-library/asset/4365) (recommended):
+### From the [Godot Asset Store](https://store.godotengine.org/asset/thomastc/rust-tools/) (Godot 4.7 and later)
+
+1. Head over to the Asset Store tab in the Godot editor.
+2. Search for "Rust Tools".
+3. Make sure "Sort" is set to "Relevance".
+4. Find the Rust Tools asset by thomastc and click it.
+5. Click Download.
+
+### From the [Godot Asset Libary](https://godotengine.org/asset-library/asset/4365) (Godot 4.5.x and 4.6.x)
 
 1. Head over to the AssetLib tab in the Godot editor.
 2. Search for "Rust Tools".
 3. Click the plugin's icon or name, then follow the steps to download and install it.
 
-Manual installation:
+### Manual installation
 
 1. Download this plugin's project files from GitHub.
 2. Copy the `addons/rust_tools` folder to the `addons` folder in your own Godot project, creating it if necessary. Files outside `addons/rust_tools` are not needed to use the plugin.
@@ -86,7 +94,7 @@ These can be found under Project > Project Settings (General) > Rust Tools.
 
 ### Editor Settings
 
-These settings apply to all projects using Rust Tools, and can be found under Editor > Editor Settings… > Rust Tools.
+These settings apply to all projects using Rust Tools, and can be found under Editor > Editor Settings… > General tab > Rust Tools.
 
 - **Cargo Executable**
 
