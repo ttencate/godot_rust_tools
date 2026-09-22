@@ -90,7 +90,7 @@ These can be found under Project > Project Settings (General) > Rust Tools.
 
 - **Generated Constants File Paths**
 
-  If specified, Rust Tools will automatically generate constants containing Input Actions, Global Groups names and user-defined Layer Names. The file will be (re)generated upon detecing a change in project settings, and right before a build; you can trigger it manually by using the Command Palette (Ctrl+Shift+P) and choosing Rust Tools > Regenerate Constants.
+  If specified, Rust Tools will automatically generate constants containing Input Actions, Global Groups names and user-defined Layer Names. The file will be (re)generated upon detecting a change in project settings, and right before a build; you can trigger it manually by using the Command Palette (Ctrl+Shift+P) and choosing Rust Tools > Regenerate Constants.
 
 ### Editor Settings
 
